@@ -1,0 +1,20 @@
+site_name: Personal Ledger Documentation
+site_url: https://ianteda.github.io/Personal_Ledger
+docs_dir: 'docs'
+theme:
+  name: 'material'
+nav:
+  - Home: README.md
+  - About: about.md
+  - References: references.md
+plugins:
+  - search
+  - neoteroi.mkdocsoad:
+      use_pymdownx: true
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+extra_css:
+  - css/neoteroi-mkdocsoad.css
