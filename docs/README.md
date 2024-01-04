@@ -8,3 +8,6 @@ This is the Personal Ledger documentation index page
 2. [About](./about.md)
 3. [References](./references.md)
 
+## Contact
+
+Leave a message
