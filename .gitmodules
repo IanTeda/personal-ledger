@@ -1,0 +1,3 @@
+[submodule "server"]
+	path = server
+	url = git@github.com:IanTeda/personal_ledger_server.git
