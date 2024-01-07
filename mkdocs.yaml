@@ -3,6 +3,8 @@ site_url: https://ianteda.github.io/personal_ledger
 docs_dir: 'docs'
 theme:
   name: 'material'
+  features:
+    - navigation.path
 nav:
   - Home: README.md
   - About: about.md
@@ -18,7 +20,3 @@ markdown_extensions:
       alternate_style: true
 extra_css:
   - css/neoteroi-mkdocsoad.cssextra:
-social:
-  - icon: fontawesome/brands/github
-    link: https://github.com/IanTeda/personal_ledger 
-    name: Github Repository
