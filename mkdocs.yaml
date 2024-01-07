@@ -19,3 +19,5 @@ markdown_extensions:
       alternate_style: true
 extra_css:
   - css/neoteroi-mkdocsoad.css
+extra_javascript:
+  - javascripts/plausible.js
