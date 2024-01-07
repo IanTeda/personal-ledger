@@ -21,5 +21,4 @@ extra_css:
 social:
   - icon: fontawesome/brands/github
     link: https://github.com/IanTeda/personal_ledger 
-    name: Github Repo
-  - copyright: Copyright &copy; 2023 - 2024 Ian Teda
+    name: Github Repository
