@@ -7,9 +7,6 @@ theme:
   palette:
     primary: black
     accent: indigo
-  features:
-    - navigation.path
-    - navigation.top
 nav:
   - Home: README.md
   - About: about.md
