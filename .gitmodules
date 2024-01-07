@@ -3,4 +3,4 @@
 	url = git@github.com:IanTeda/personal_ledger_server.git
 [submodule "web"]
 	path = web
-	url = https://github.com/IanTeda/personal_ledger_web
+	url = git@github.com:IanTeda/personal_ledger_web.git 

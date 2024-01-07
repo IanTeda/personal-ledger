@@ -17,4 +17,9 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
 extra_css:
-  - css/neoteroi-mkdocsoad.css
+  - css/neoteroi-mkdocsoad.cssextra:
+social:
+  - icon: fontawesome/brands/github
+    link: https://github.com/IanTeda/personal_ledger 
+    name: Github Repo
+  - copyright: Copyright &copy; 2023 - 2024 Ian Teda
