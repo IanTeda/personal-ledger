@@ -3,8 +3,6 @@ site_url: https://ianteda.github.io/personal_ledger
 docs_dir: 'docs'
 theme:
   name: 'material'
-  features:
-    - navigation.path
 nav:
   - Home: README.md
   - About: about.md
