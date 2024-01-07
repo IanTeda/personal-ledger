@@ -13,7 +13,6 @@ nav:
   - References: references.md
 plugins:
   - search
-  - optimize
   - neoteroi.mkdocsoad:
       use_pymdownx: true
 markdown_extensions:
