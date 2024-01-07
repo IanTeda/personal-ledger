@@ -1,5 +1,6 @@
 site_name: Personal Ledger Documentation
 site_url: https://ianteda.github.io/personal_ledger
+repo_url: https://github.com/IanTeda/personal_ledger 
 docs_dir: 'docs'
 theme:
   name: 'material'
