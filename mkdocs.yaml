@@ -1,4 +1,4 @@
-site_name: Personal Ledger Documentation
+site_name: Personal Ledger
 site_url: https://ianteda.github.io/personal_ledger
 repo_url: https://github.com/IanTeda/personal_ledger 
 docs_dir: 'docs'
@@ -7,12 +7,16 @@ theme:
   palette:
     primary: black
     accent: indigo
+  features:
+    - navigation.path
+    - navigation.top
 nav:
   - Home: README.md
   - About: about.md
   - References: references.md
 plugins:
   - search
+  - optimize
   - neoteroi.mkdocsoad:
       use_pymdownx: true
 markdown_extensions:
