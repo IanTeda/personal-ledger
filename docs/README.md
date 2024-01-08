@@ -1,13 +1,15 @@
----
-hide:
-  - navigation
----
 # Home  
+
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 <!-- PERSONAL LEDGER HEADER -->
 <br />
 <div align="center">
-    <br />
     <a href="https://github.com/IanTeda/personal_ledger">
         <img src="images/logo.png" alt="Logo" width="80" height="80">
     </a>
@@ -24,7 +26,7 @@ hide:
 <!-- ABOUT PERSONAL LEDGER -->
 ## About The Project
 
-[![Personal Ledger Screenshot][product-screenshot#center]](https://github.com/IanTeda/personal_ledger)
+[![Personal Ledger Screenshot][product-screenshot]](https://github.com/IanTeda/personal_ledger)
 
 Personal Ledger is an app for tracking and understanding your expenses, investment and asset. 
 
@@ -33,7 +35,7 @@ Motivation for Personal Ledger:
 * Applications in general are opinionated, and finance applications are no different. Looking at the finance applications available, none ticked my boxes or were monthly subscription models with high fees. 
 * Funsy project to hone my programming skills. 
 
-<!-- PROJECT IS BUILT WITH -->
+<!-- PERSONAL LEDGER IS BUILT WITH -->
 ### Built With
 
 The Personal Ledger is made up of separate components:
