@@ -1,3 +1,8 @@
+---
+hide:
+  - navigation
+  - toc
+---
 # Home  
 
 [![Contributors][contributors-shield]][contributors-url]
