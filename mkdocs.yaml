@@ -15,7 +15,6 @@ theme:
 nav:
   - Home: README.md
   - About: about.md
-  - Readme: ../README.md
   - References: references.md
 plugins:
   - search
