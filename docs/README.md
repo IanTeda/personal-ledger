@@ -12,7 +12,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/IanTeda/personal_ledger">
-        <img src="docs/images/logo.png" alt="Logo" width="80" height="80">
+        <img src="images/logo.png" alt="Logo" width="80" height="80">
     </a>
     <h3 align="center">Personal Ledger</h3>
     <p align="center">
@@ -31,39 +31,12 @@
   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 [![Personal Ledger Screenshot][product-screenshot]](https://github.com/IanTeda/personal_ledger)
 
-The Personal Ledger is a money, investment and asset tracking application. 
+Personal Ledger is an app for tracking and understanding your expenses, investment and asset. 
 
 Motivation for Personal Ledger:
 
@@ -83,77 +56,10 @@ The Personal Ledger is made up of separate components:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-<!-- GETTING STARTED -->
-## Getting Started
-
-At the moment Personal Ledger is under development, so no Getting Started or Prerequisites are available.
-
-### Prerequisites
-
-To get started with Personal Ledger run the following commands.
-
-```sh
-$
-```
-
-### Installation
-
-To install Personal Ledger run the follwing commands.
-
-```sh 
-$
-```
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- USAGE -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [ ] Map out the development workflow
-- [ ] Develop REST API server (backend) minimum viable product
-- [ ] Develop web server (frontend) minimum viable product
-- [ ] Develop deployment integration 
-- [ ] Work through feature set:
-    - [ ] Feature 1
-    - [ ] Feature 2 
-
-See the [Personal Ledger - Roadmap](https://github.com/users/IanTeda/projects/1) for a full list of proposed features.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- CONTRIBUTING -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -169,44 +75,6 @@ Project Link: [https://github.com/IanTeda/personal_ledger](https://github.com/Ia
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- REFERENCES -->
-## References 
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-* [Best README Template](https://github.com/othneildrew/Best-README-Template/tree/master)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-<!-- SIMILAR PROJECTS -->
-## Similar Applications 
-
-Below is a list of similar applications:
-
-* [GNU Cash](https://gnucash.org/)
-* [KmyMoney](https://kmymoney.org/)
-* [Money Manager EX](https://moneymanagerex.org/)
-* [Firefly III](https://www.firefly-iii.org/)
-* [You Need A Budget (YNAB)](https://www.ynab.com/)
-* [Mint](https://mint.intuit.com/)
-* [Beancount](https://github.com/beancount/beancount?tab=readme-ov-file)
-* [Plain Text Accounting](https://plaintextaccounting.org/)
-* [BudgE](https://github.com/linuxserver/budge)
-* [Budget Zero](https://budgetzero.io/)
-* [Buckets](https://www.budgetwithbuckets.com/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/IanTeda/personal_ledger.svg?style=for-the-badge
@@ -221,4 +89,4 @@ Below is a list of similar applications:
 [license-url]: https://github.com/IanTeda/personal_ledger/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/ianteda
-[product-screenshot]: docs/images/screenshot.png
+[product-screenshot]: images/screenshot.png

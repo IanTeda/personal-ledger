@@ -15,7 +15,11 @@ theme:
 nav:
   - Home: README.md
   - About: about.md
+  - Getting Started: getting_started.md
+  - Road Map: road_map.md
+  - Contributing: contribution.md
   - References: references.md
+  - Similar Projects: similar_projects.md
 plugins:
   - search
   - neoteroi.mkdocsoad:
@@ -28,4 +32,4 @@ markdown_extensions:
 extra_css:
   - css/neoteroi-mkdocsoad.css
 extra_javascript:
-  - javascript/plausible.js
+  - javascripts/plausible.js
