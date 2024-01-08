@@ -1,5 +1,4 @@
-<!-- Improved compatibility of back to top link -->
-<a name="readme-top"></a>
+# About
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -43,8 +42,6 @@ Motivation for Personal Ledger:
 * Applications in general are opinionated, and finance applications are no different. Looking at the finance applications available, none ticked my boxes or were monthly subscription models with high fees. 
 * Funsy project to hone my programming skills. 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- PROJECT IS BUILT WITH -->
 ### Built With
 
@@ -53,16 +50,11 @@ The Personal Ledger is made up of separate components:
 * [REST API Server (Backend)](https://github.com/IanTeda/personal_ledger_server)
 * [React Web (Frontend)](https://github.com/IanTeda/personal_ledger_web)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- LICENSE -->
 ## License
 
 Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- CONTACT -->
@@ -71,8 +63,6 @@ Distributed under the GPL-3.0 License. See `LICENSE.txt` for more information.
 Your Name - [@ian_teda](https://twitter.com/ian_teda) - [ian@teda.id.au](mailto:ian@teda.id.au)
 
 Project Link: [https://github.com/IanTeda/personal_ledger](https://github.com/IanTeda/personal_ledger)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->

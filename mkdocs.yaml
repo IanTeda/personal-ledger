@@ -14,10 +14,9 @@ theme:
     - search.highlight
 nav:
   - Home: README.md
-  - About: about.md
   - Getting Started: getting_started.md
-  - Road Map: road_map.md
-  - Contributing: contribution.md
+  - Roadmap: roadmap.md
+  - Contributing: contributing.md
   - References: references.md
   - Similar Projects: similar_projects.md
 plugins:
