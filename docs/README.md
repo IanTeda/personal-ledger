@@ -1,4 +1,4 @@
-# About
+# Home  
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -17,16 +17,9 @@
     <p align="center">
         An app for tracking your expense, investments and assets. Personal Ledger repositories are split up via concerns, that are listed below.
     <br />
-        <a href="https://ianteda.github.io/personal_ledger/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
     <a href="https://github.com/IanTeda/personal_ledger_server">Rest Server (Backend)</a>
     ·
     <a href="https://github.com/IanTeda/personal_ledger_web">Web Server (Frontend)</a>
-    ·
-    <a href="https://ianteda.github.io/personal_ledger/issues">Report Bug</a>
-    ·
-    <a href="https://ianteda.github.io/personal_ledger/issues">Request Feature</a>
   </p>
 </div>
 

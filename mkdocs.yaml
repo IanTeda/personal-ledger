@@ -10,6 +10,7 @@ theme:
   features:
     - navigation.path
     - navigation.top
+    - navigation.tabs
     - search.suggest
     - search.highlight
 nav:
