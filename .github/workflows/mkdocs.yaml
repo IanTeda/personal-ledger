@@ -1,4 +1,5 @@
-name: mkdocs
+name: Build Repositotry Documents (MkDocs)
+
 on:
   push:
     branches: 
