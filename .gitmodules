@@ -4,3 +4,12 @@
 [submodule "web"]
 	path = web
 	url = git@github.com:IanTeda/personal_ledger_web.git 
+[submodule "backend"]
+	path = backend
+	url = git@github.com:IanTeda/personal_ledger_backend.git
+[submodule "frontend_tui"]
+	path = frontend_tui
+	url = git@github.com:IanTeda/personal_ledger_tui.git
+[submodule "tui"]
+	path = tui
+	url = git@github.com:IanTeda/personal_ledger_tui.git
