@@ -4,3 +4,6 @@
 [submodule "tui"]
 	path = tui
 	url = git@github.com:IanTeda/personal_ledger_tui.git
+[submodule "backend"]
+	path = backend
+	url = git@github.com:IanTeda/personal-ledger-backend.git
