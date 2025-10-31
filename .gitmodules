@@ -1,3 +1,3 @@
-[submodule "personal-ledger-backend"]
-	path = personal-ledger-backend
+[submodule "backend"]
+	path = backend
 	url = git@github.com:IanTeda/personal-ledger-backend.git
