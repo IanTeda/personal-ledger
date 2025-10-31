@@ -1,9 +1,3 @@
-[submodule "authentication"]
-	path = authentication
-	url = git@github.com:IanTeda/authentication_microservice.git
-[submodule "tui"]
-	path = tui
-	url = git@github.com:IanTeda/personal_ledger_tui.git
-[submodule "backend"]
-	path = backend
+[submodule "personal-ledger-backend"]
+	path = personal-ledger-backend
 	url = git@github.com:IanTeda/personal-ledger-backend.git
