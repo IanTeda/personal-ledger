@@ -1,0 +1,10 @@
+[workspace]
+resolver = "3"
+members = [
+  "crates/grpc",
+]
+
+[workspace.dependencies]
+# Common dependencies you want version-locked across crates
+serde = { version = "1.0", features = ["derive"] }
+tokio = { version = "1.40", features = ["full"] }

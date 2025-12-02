@@ -1,0 +1,20 @@
+//-- ./proto/utilities.proto
+
+syntax = "proto3";
+
+package personal_ledger;
+
+// The Utilities service definition.
+service UtilitiesService {
+  rpc Ping (PingRequest) returns (PingResponse) {}
+}
+
+message PingRequest {
+  // This message is intentionally left empty
+}
+
+// The response message containing the pong.
+message PingResponse {
+  // A simple pong message
+  string message = 1;
+}
