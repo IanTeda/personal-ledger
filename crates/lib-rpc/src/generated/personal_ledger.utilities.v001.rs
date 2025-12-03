@@ -115,11 +115,16 @@ pub mod utilities_service_client {
                 })?;
             let codec = tonic_prost::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/personal_ledger.UtilitiesService/Ping",
+                "/personal_ledger.utilities.v001.UtilitiesService/Ping",
             );
             let mut req = request.into_request();
             req.extensions_mut()
-                .insert(GrpcMethod::new("personal_ledger.UtilitiesService", "Ping"));
+                .insert(
+                    GrpcMethod::new(
+                        "personal_ledger.utilities.v001.UtilitiesService",
+                        "Ping",
+                    ),
+                );
             self.inner.unary(req, path, codec).await
         }
     }
@@ -219,7 +224,7 @@ pub mod utilities_service_server {
         }
         fn call(&mut self, req: http::Request<B>) -> Self::Future {
             match req.uri().path() {
-                "/personal_ledger.UtilitiesService/Ping" => {
+                "/personal_ledger.utilities.v001.UtilitiesService/Ping" => {
                     #[allow(non_camel_case_types)]
                     struct PingSvc<T: UtilitiesService>(pub Arc<T>);
                     impl<
@@ -298,7 +303,7 @@ pub mod utilities_service_server {
         }
     }
     /// Generated gRPC service name
-    pub const SERVICE_NAME: &str = "personal_ledger.UtilitiesService";
+    pub const SERVICE_NAME: &str = "personal_ledger.utilities.v001.UtilitiesService";
     impl<T> tonic::server::NamedService for UtilitiesServiceServer<T> {
         const NAME: &'static str = SERVICE_NAME;
     }

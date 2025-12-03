@@ -16,19 +16,22 @@ The Personal Ledger project is made up of the following libraries:
 
 Every binary is a thin main.rs that just glues crates together. The Personal Ledger project is made up of the following binaries and there shared libraries:
 
-1. **Backend:** A stand alone grpc server that interfaces with the database. It accepts grpc requests, queries the database and provides a grpc response. It contains the following libraries:
+### 1. Backend
+
+A stand alone grpc server that interfaces with the database. It accepts grpc requests, queries the database and provides a grpc response. It contains the following libraries:
 
 - Configuration
 - Database
 - Grpc
 - Telemetry
 
-2. **Desktop:** A standalone desktop applicatoin built with egui/tauri
+### 2. Desktop
 
-3. TUI
+A standalone desktop applicatoin built with egui/tauri
 
-4. Leptos (Web)
+### 3. TUI
 
+### 4. Leptos (Web)
 
 ```just
 my-app/

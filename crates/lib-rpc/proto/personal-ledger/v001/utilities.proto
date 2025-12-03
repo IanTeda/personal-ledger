@@ -1,8 +1,17 @@
+// Personal Ledger Utilities Service Protocol Buffer Definition
+//
+// This file defines the gRPC service and messages for utility operations,
+// such as ping for health checks.
+//
+// Author: Ian Teda
+// Version: 001
+// Date: 2025
+
 //-- ./proto/utilities.proto
 
 syntax = "proto3";
 
-package personal_ledger;
+package personal_ledger.utilities.v001;
 
 // The Utilities service definition.
 service UtilitiesService {

@@ -17,19 +17,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Re-run the build script if this file changes
     println!("cargo:rerun-if-changed=build.rs");
 
-    // Compile all .proto files in the proto/ directory
+    // Compile utilities.proto
     tonic_prost_build::configure()
-        .out_dir("src/generated") // Change to out_dir if you want to generate in OUT_DIR
+        .out_dir("src/generated")
         .protoc_arg("--experimental_allow_proto3_optional")
         .protoc_arg("--proto_path=/usr/include")
         .build_client(true)
         .build_server(true)
         .build_transport(true)
-        .compile_well_known_types(true)
-        .extern_path(".google.protobuf", "::prost_types")
-        .file_descriptor_set_path(out_dir.join("personal_ledger_descriptor.bin"))
+        .compile_well_known_types(false)
+        .file_descriptor_set_path(out_dir.join("utilities_descriptor.bin"))
         .compile_protos(
-          &["proto/personal-ledger/utilities.proto"], 
+          &[
+            "proto/personal-ledger/v001/utilities.proto", 
+            "proto/personal-ledger/v001/categories.proto"
+        ],
           &["proto/", "/usr/include"])?;
     Ok(())
 }

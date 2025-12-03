@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+prost = { version = "0.14.1" }
+prost-types = { version = "0.14.1" }
+tonic = { workspace = true }
+tonic-prost = { version = "0.14.2" }
 
 [build-dependencies]
 tonic-prost-build = { version = "0.14.2" }

@@ -1,10 +1,39 @@
+# Personal Ledger - Cargo Workspace Configuration
+#
+# This file defines the workspace settings for the personal-ledger project,
+# including members, dependencies, and resolver configuration.
+#
+# Author: Ian Teda
+# Date: 2025
+
+# Workspace-wide lint configuration for Rust code
+# These settings apply to all crates in the workspace
+[workspace.lints.rust]
+# Forbid unsafe code across the workspace for safety
+unsafe_code = "forbid"
+# Allow unused code/variables during development, with low priority to allow overrides
+ # For exploratory dev, comment out for commits
+# unused = { level = "allow", priority = -1 }
+
+# Workspace configuration for managing multiple crates in the personal-ledger project
 [workspace]
+
+# Resolver version for dependency resolution (3 = new resolver for improved optional/dev 
+# dep handling). Minimum required Cargo version for resolver 3 is 1.51.
 resolver = "3"
+
+# List of workspace members (crates included in the workspace)
+# You can add a library crate with the command: `$ cargo new crates/proto --lib`
+# Or manually by creating a new directory with a `Cargo.toml` file and including its
+# relative path here, e.g., "crates/new-crate"
 members = [
   "crates/lib-rpc",
 ]
 
+
+# Define shared dependencies here to ensure consistent versions across workspace members
+# In member crates' Cargo.toml, reference them as: serde = { workspace = true }
 [workspace.dependencies]
-# Common dependencies you want version-locked across crates
 serde = { version = "1.0", features = ["derive"] }
 tokio = { version = "1.40", features = ["full"] }
+tonic = { version = "0.14.2", features = ["transport", "codegen"] }
