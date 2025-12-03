@@ -9,7 +9,7 @@ The Personal Ledger project is made up of the following libraries:
 - **Configuration:** This library crate holds the configuration defaults, file parsing and logic.
 - **Database:** This library crate contains the database abstraction layer.
 - **Domain:** This library crate contains the business logic and type definitions. Including application error and result. No I/O is managed here.
-- **GRPC:** This libary crate contains the proto definitions, protoc generated files and grpc servers.
+- **RPC:** This libary crate contains the proto definitions, protoc generated files and grpc servers.
 - **Telemetry:** This library crate contains the telemtry shared code.
 
 ## Binaries

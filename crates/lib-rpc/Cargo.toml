@@ -1,5 +1,5 @@
 [package]
-name = "grpc"
+name = "lib-rpc"
 version = "0.1.0"
 edition = "2024"
 
