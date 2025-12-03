@@ -26,7 +26,7 @@ resolver = "3"
 # You can add a library crate with the command: `$ cargo new crates/proto --lib`
 # Or manually by creating a new directory with a `Cargo.toml` file and including its
 # relative path here, e.g., "crates/new-crate"
-members = [
+members = ["crates/lib-domain",
   "crates/lib-rpc",
 ]
 
@@ -34,6 +34,31 @@ members = [
 # Define shared dependencies here to ensure consistent versions across workspace members
 # In member crates' Cargo.toml, reference them as: serde = { workspace = true }
 [workspace.dependencies]
+chrono = { version = "0.4.42", features = ["serde", "clock"] }
+fake = { version = "4.4.0", features = [
+  "derive",
+  "bigdecimal",
+  "chrono",
+  "chrono-tz",
+  "http",
+  "random_color",
+  "time",
+  "uuid",
+] }
 serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.8.6", features = [
+    "any",
+    "chrono",
+    "derive",
+    "macros",
+    "migrate",
+    "postgres",
+    "runtime-tokio-rustls",
+    "sqlite",
+    "uuid",
+] }
+thiserror = { version = "2.0.17" }
 tokio = { version = "1.40", features = ["full"] }
 tonic = { version = "0.14.2", features = ["transport", "codegen"] }
+uuid = { version = "1.18.1", features = ["v7", "serde"] }
