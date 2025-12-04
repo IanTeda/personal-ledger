@@ -147,6 +147,5 @@ dist-ssr
 
 # -----------------------------[ MDBOOK ]------------------------------
 
-docs/rustdoc
+docs/.rustdoc
 docs/.book
-docs/index.html
