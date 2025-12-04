@@ -25,6 +25,7 @@ description = "Build all documentation"
 dependencies = ["docs-rustdoc", "docs-mdbook"]
 
 [tasks.docs-serve]
+workspace = false
 install_crate = "mdbook"
 description = "Serve mdBook documentation on port 8001"
 command = "mdbook"

@@ -8,3 +8,8 @@ args = ["run", "--bin", "backend"]
 description = "Build the backend binary"
 command = "cargo"
 args = ["build", "--package", "backend", "--bin", "backend", "--release"]
+
+[tasks.docs-serve]
+description = "No-op for backend (docs-serve is workspace-level)"
+command = "echo"
+args = ["backend: docs-serve not applicable"]

@@ -2,3 +2,8 @@
 description = "No-op for lib-rpc (backend build is in backend crate)"
 command = "echo"
 args = ["lib-rpc: backend-build not applicable"]
+
+[tasks.docs-serve]
+description = "No-op for lib-rpc (docs-serve is workspace-level)"
+command = "echo"
+args = ["lib-rpc: docs-serve not applicable"]

@@ -2,17 +2,18 @@
 title = "Personal Ledger Documentation"
 authors = ["Ian Teda"]
 description = "Documentation for the Personal Ledger."
-
+src = "docs/src"
 language = "en"
 text-direction = "ltr"
-src = "docs/"
+
+[rust]
+edition = "2024"
 
 [build]
 build-dir = "docs/.book/"
 create-missing = false
+extra-watch-dirs = ["docs/src"] 
 
-[rust]
-edition = "2021"
 
 [output.html]
 default-theme = "dark"

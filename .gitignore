@@ -144,3 +144,9 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# -----------------------------[ MDBOOK ]------------------------------
+
+docs/rustdoc
+docs/.book
+docs/index.html
