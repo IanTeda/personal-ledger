@@ -1,0 +1,27 @@
+[book]
+title = "Personal Ledger Documentation"
+authors = ["Ian Teda"]
+description = "Documentation for the Personal Ledger."
+
+language = "en"
+text-direction = "ltr"
+src = "docs"
+
+[build]
+build-dir = "docs/.book"
+create-missing = false
+
+[rust]
+edition = "2021"
+
+[output.html]
+default-theme = "dark"
+# additional-css = ["custom.css"]
+
+[output.html.search]
+limit-results = 30
+
+[preprocessor.index]
+
+[preprocessor.links]
+
