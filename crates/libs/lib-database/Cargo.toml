@@ -1,0 +1,24 @@
+[package]
+name = "lib_database"
+version = "0.1.0"
+edition = "2024"
+
+
+[dependencies]
+sqlx = { workspace = true }
+tokio = { workspace = true }
+thiserror = { workspace = true }
+chrono = { workspace = true }
+uuid = { workspace = true }
+tracing = { workspace = true }
+
+
+[dev-dependencies]
+## Use `fake` as a dev-dependency for tests and examples. We declare the
+## version and features locally here instead of inheriting from the
+## workspace to avoid manifest parsing issues when `fake` is only listed
+## under `workspace.dev-dependencies` in the top-level manifest.
+fake = { workspace = true }
+
+[lints]
+workspace = true
