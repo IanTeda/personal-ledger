@@ -1,4 +1,12 @@
 
+# -------------------------------[BINARY BUILDS]-------------------------------------
+
+## Build the backend binary
+[tasks.backend-build]
+description = "Build the backend binary"
+command = "cargo"
+args = ["build", "--package", "backend", "--bin", "backend", "--release"]
+
 # -------------------------------[MD BOOK]-------------------------------------
 
 [tasks.docs-rustdoc]

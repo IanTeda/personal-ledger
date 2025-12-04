@@ -1,0 +1,4 @@
+[tasks.backend-build]
+description = "No-op for lib-rpc (backend build is in backend crate)"
+command = "echo"
+args = ["lib-rpc: backend-build not applicable"]

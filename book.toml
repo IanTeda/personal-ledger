@@ -5,10 +5,10 @@ description = "Documentation for the Personal Ledger."
 
 language = "en"
 text-direction = "ltr"
-src = "docs"
+src = "docs/"
 
 [build]
-build-dir = "docs/.book"
+build-dir = "docs/.book/"
 create-missing = false
 
 [rust]
