@@ -1,0 +1,29 @@
+[package]
+name = "lib_domain"
+version = "0.1.0"
+edition = "2024"
+
+
+[dependencies]
+
+lib_rpc = { path = "../../crates/lib-rpc" }
+
+chrono = { workspace = true }
+serde = { workspace = true }
+sqlx = { workspace = true }
+thiserror = { workspace = true }
+uuid = { workspace = true }
+
+
+[dev-dependencies]
+## Use `fake` as a dev-dependency for tests and examples. We declare the
+## version and features locally here instead of inheriting from the
+## workspace to avoid manifest parsing issues when `fake` is only listed
+## under `workspace.dev-dependencies` in the top-level manifest.
+fake = { workspace = true }
+serde_json = { workspace = true }
+
+
+
+[lints]
+workspace = true

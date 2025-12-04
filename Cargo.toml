@@ -1,0 +1,71 @@
+# Personal Ledger - Cargo Workspace Configuration
+#
+# This file defines the workspace settings for the personal-ledger project,
+# including members, dependencies, and resolver configuration.
+#
+# Author: Ian Teda
+# Date: 2025
+
+# Workspace-wide lint configuration for Rust code
+# These settings apply to all crates in the workspace
+[workspace.lints.rust]
+
+# Forbid unsafe code across the workspace for safety
+unsafe_code = "forbid"
+
+# Allow unused code/variables during development, with low priority to allow overrides
+# For exploratory dev, comment out for commits
+# unused = { level = "allow", priority = -1 }
+
+
+# Workspace configuration for managing multiple crates in the personal-ledger project
+[workspace]
+
+# Resolver version for dependency resolution (3 = new resolver for improved optional/dev 
+# dep handling). Minimum required Cargo version for resolver 3 is 1.51.
+resolver = "3"
+
+# List of workspace members (crates included in the workspace)
+# You can add a library crate with the command: `$ cargo new crates/proto --lib`
+# Or manually by creating a new directory with a `Cargo.toml` file and including its
+# relative path here, e.g., "crates/new-crate"
+# members = ["crates/backend","crates/lib-config", "crates/lib-domain", "crates/lib-rpc"]
+members = ["crates/backend","crates/libs/lib-rpc"]
+
+
+# Define shared dependencies here to ensure consistent versions across workspace members
+# In member crates' Cargo.toml, reference them as: serde = { workspace = true }
+# Common workspace dev dependencies can also be defined here. Then added to the dev-dependencies
+# section of member crates as: fake = { workspace = true }
+[workspace.dependencies]
+chrono = { version = "0.4.42", features = ["serde", "clock"] }
+fake = { version = "4.4.0", features = [
+  "derive",
+  "bigdecimal",
+  "chrono",
+  "chrono-tz",
+  "http",
+  "random_color",
+  "time",
+  "uuid",
+] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+sqlx = { version = "0.8.6", features = [
+  "any",
+  "chrono",
+  "derive",
+  "macros",
+  "migrate",
+  "postgres",
+  "runtime-tokio-rustls",
+  "sqlite",
+  "uuid",
+] }
+thiserror = { version = "2.0.17" }
+tokio = { version = "1.40", features = ["full"] }
+tonic = { version = "0.14.2", features = ["transport", "codegen"] }
+tracing = { version = "0.1.41" }
+tracing-log = { version = "0.2.0" }
+tracing-subscriber = { version = "0.3.20", features = ["env-filter", "std"] }
+uuid = { version = "1.18.1", features = ["v7", "serde"] }
