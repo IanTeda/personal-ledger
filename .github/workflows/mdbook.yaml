@@ -2,12 +2,12 @@
 #
 # To get started with mdBook see: https://rust-lang.github.io/mdBook/index.html
 #
-name: Build and Deploy mdBook site to Github Pages
+name: mdBook - Build and Deploy to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main", "mono-repo"]
+    branches: ["main"]  # Change to your default branch if different
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -28,32 +28,47 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    env:
-      MDBOOK_VERSION: 0.4.36
     steps:
       - uses: actions/checkout@v4
-        
+
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust@v1  # Better Rust setup with caching
+        with:
+          rust-version: stable
+
+      - name: Cache mdBook
+        uses: actions/cache@v4
+        with:
+          path: ~/.cargo/bin/mdbook
+          key: mdbook-${{ runner.os }}-0.5.1  # Pin version for consistency
+
       - name: Install mdBook
         run: |
-          curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf -y | sh
-          rustup update
-          cargo install --version ${MDBOOK_VERSION} mdbook
-          # cargo install mdbook-copy
+          if ! command -v mdbook &> /dev/null; then
+            cargo install mdbook --version 0.5.1
+          fi
 
-      - name: Setup Pages
-        id: pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      # - name: Build Rust docs
+      # - name: Build Rust docs (optional)
       #   run: cargo doc --no-deps --target-dir docs/rustdoc
+      #   continue-on-error: true  # Don't fail if docs build fails
 
       - name: Build with mdBook
         run: mdbook build
 
+      - name: Check build output
+        run: |
+          if [ ! -d "docs/.book" ]; then
+            echo "mdBook build failed: docs/.book not found"
+            exit 1
+          fi
+
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v3  # Updated to v3
         with:
-          path: ./docs/book
+          path: ./docs/.book
 
   # Deployment job
   deploy:

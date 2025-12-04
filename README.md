@@ -1,33 +1,35 @@
+<!-- markdownlint-disable MD033 -->
+# Personal Ledger
+
 <!-- Improved compatibility of back to top link -->
 <a name="readme-top"></a>
 
+<!-- The extra return after center is needed for it to render the markdown links center -->
+<div align="center">
+
+[![License][license-shield]][license-url]
+[![Issues][issues-shield]][issues-url]
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+
+</div>
 
 <!-- PROJECT HEADER -->
 <br />
 <div align="center">
-    <a href="https://github.com/IanTeda/personal_ledger">
-        <img src="docs/images/logo.png" alt="Logo" width="80" height="80">
+    <a href="https://github.com/IanTeda/personal-ledger">
+        <img src="docs/src/images/logo.png" alt="Logo" width="80" height="80">
     </a>
     <h3 align="center">Personal Ledger</h3>
     <p align="center">
-        An app for tracking your expense, investments and assets. Personal Ledger repositories are split up via concerns, that are listed below.
+        Track your personal expense, investments and assets to help you understand what you have and to make informed decisions..
     <br />
-        <a href="https://ianteda.github.io/personal_ledger/"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/IanTeda/personal_ledger_server">Rest Server (Backend)</a>
+    <a href="https://ianteda.github.io/personal-ledger/">Explore the Docs</a>
     ·
-    <a href="https://github.com/IanTeda/personal_ledger_web">Web Server (Frontend)</a>
+    <a href="https://ianteda.github.io/personal-ledger/issues">Report a Bug</a>
     ·
-    <a href="https://ianteda.github.io/personal_ledger/issues">Report Bug</a>
-    ·
-    <a href="https://ianteda.github.io/personal_ledger/issues">Request Feature</a>
+    <a href="https://ianteda.github.io/personal-ledger/issues">Request a Feature</a>
   </p>
 </div>
 
@@ -35,12 +37,8 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#includes">Project Includes</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -53,35 +51,47 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#references">References</a></li>
+    <li><a href="#similar-applications">Similar Applications</a></li>
   </ol>
 </details>
-
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Personal Ledger Screenshot][product-screenshot]](https://github.com/IanTeda/personal_ledger)
+[![Personal Ledger Screenshot][product-screenshot]](https://github.com/IanTeda/personal-ledger)
 
-The Personal Ledger is a money, investment and asset tracking application. 
+The Personal Ledger is a money, investment and asset tracking application to help you understand what you have and to make informed decisions.
 
 Motivation for Personal Ledger:
 
-* Applications in general are opinionated, and finance applications are no different. Looking at the finance applications available, none ticked my boxes or were monthly subscription models with high fees. 
-* Funsy project to hone my programming skills. 
+* Applications in general are opinionated, and finance applications are no different. Looking at the finance applications available, none ticked my boxes or were monthly subscription models with high fees.
+* I niavely thought I could do it better.
+* Funsy project to hone my programming skills.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- PROJECT INCLUDES -->
+## Includes
+
+The Personal Ledger has a number of standalone applications and services that can be combined to suit your preference. They include the following:
+
+* **Backend (Underdevement) :** A backend server that can be accessed by front ends through an rpc interface. The backend can be a standalone binary service or Docker deployable.
+* **Web (Under Development) :** A web frontend app that uses the backend for data quering. The web frontend can be a standalone binary service or Docker deployable
+* **Desktop (Planned) :** A desktop app that wraps the web front end that can access the bakend or be standalone.
+* **TUI (Planned) :** A text interface frontend that can access the backend or be standalone.
 
 <!-- PROJECT IS BUILT WITH -->
-### Built With
+## Built With
 
-The Personal Ledger is made up of separate components:
+I have tried to keep the tech stack with Rust, because that is what I would like to learn and improve with. The Rust stack being used includes the following:
 
-* [REST API Server (Backend)](https://github.com/IanTeda/personal_ledger_server)
-* [React Web (Frontend)](https://github.com/IanTeda/personal_ledger_web)
+* Sqlite:
+* Tonic:
+* Tuari:
+* Ratui:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -100,17 +110,18 @@ $
 
 To install Personal Ledger run the follwing commands.
 
-```sh 
+```sh
 $
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- USAGE -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+This space will be used to show useful examples of how a project can be used. Additional screenshots, code examples and demos work.
+
+Include any links to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -119,19 +130,17 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Map out the development workflow
-- [ ] Develop REST API server (backend) minimum viable product
-- [ ] Develop web server (frontend) minimum viable product
-- [ ] Develop deployment integration 
-- [ ] Work through feature set:
-    - [ ] Feature 1
-    - [ ] Feature 2 
+* [ ] Map out the development workflow
+* [ ] Develop REST API server (backend) minimum viable product
+* [ ] Develop web server (frontend) minimum viable product
+* [ ] Develop deployment integration
+* [ ] Work through feature set:
+  * [ ] Feature 1
+  * [ ] Feature 2
 
 See the [Personal Ledger - Roadmap](https://github.com/users/IanTeda/projects/1) for a full list of proposed features.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -149,49 +158,37 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the GPL3.0 License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@ian_teda](https://twitter.com/ian_teda) - [ian@teda.id.au](mailto:ian@teda.id.au)
-
-Project Link: [https://github.com/IanTeda/personal_ledger](https://github.com/IanTeda/personal_ledger)
+* Ian Teda - [ian@teda.id.au](mailto:ian@teda.id.au)
+* Project Link: [https://github.com/IanTeda/personal-ledger](https://github.com/IanTeda/personal-ledger)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-
 <!-- REFERENCES -->
-## References 
+## References
 
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
+The following is a list of resources you find helpful and would like to give credit to:
 
 * [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
 * [Img Shields](https://shields.io)
 * [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
 * [Best README Template](https://github.com/othneildrew/Best-README-Template/tree/master)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
 <!-- SIMILAR PROJECTS -->
-## Similar Applications 
+## Similar Applications
 
-Below is a list of similar applications:
+Below is a list of similar applications that you might prefer to use:
 
 * [GNU Cash](https://gnucash.org/)
 * [KmyMoney](https://kmymoney.org/)
@@ -209,16 +206,15 @@ Below is a list of similar applications:
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/IanTeda/personal_ledger.svg?style=for-the-badge
-[contributors-url]: https://github.com/IanTeda/personal_ledger/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/IanTeda/personal_ledger.svg?style=for-the-badge
-[forks-url]: https://github.com/IanTeda/personal_ledger/network/members
-[stars-shield]: https://img.shields.io/github/stars/IanTeda/personal_ledger.svg?style=for-the-badge
-[stars-url]: https://github.com/IanTeda/personal_ledger/stargazers
-[issues-shield]: https://img.shields.io/github/issues/IanTeda/personal_ledger.svg?style=for-the-badge
-[issues-url]: https://github.com/IanTeda/personal_ledger/issues
-[license-shield]: https://img.shields.io/github/license/IanTeda/personal_ledger.svg?style=for-the-badge
-[license-url]: https://github.com/IanTeda/personal_ledger/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/ianteda
-[product-screenshot]: docs/images/screenshot.png
+[contributors-shield]: https://img.shields.io/github/contributors/IanTeda/personal-ledger.svg?style=for-the-badge
+[contributors-url]: https://github.com/IanTeda/personal-ledger/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/IanTeda/personal-ledger.svg?style=for-the-badge
+[forks-url]: https://github.com/IanTeda/personal-ledger/network/members
+[stars-shield]: https://img.shields.io/github/stars/IanTeda/personal-ledger.svg?style=for-the-badge
+[stars-url]: https://github.com/IanTeda/personal-ledger/stargazers
+[issues-shield]: https://img.shields.io/github/issues/IanTeda/personal-ledger.svg?style=for-the-badge
+[issues-url]: https://github.com/IanTeda/personal-ledger/issues
+<!-- [license-shield]: https://img.shields.io/github/license/IanTeda/personal-ledger.svg?style=for-the-badge -->
+[license-shield]: https://img.shields.io/github/license/IanTeda/personal-ledger.svg?style=for-the-badge
+[license-url]: https://github.com/IanTeda/personal-ledger/blob/master/LICENSE.txt
+[product-screenshot]: docs/src/images/screenshot.png
