@@ -2,7 +2,7 @@
 #
 # To get started with mdBook see: https://rust-lang.github.io/mdBook/index.html
 #
-name: Build and Deploy mdBook site to Github Pages
+name: mdBook - Build and Deploy to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch

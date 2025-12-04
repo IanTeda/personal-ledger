@@ -7,7 +7,7 @@ language = "en"
 text-direction = "ltr"
 
 [rust]
-edition = "2024"
+edition = "2021"  # Github Pages currently requires 2021 edition for mdBook
 
 [build]
 build-dir = "docs/.book/"

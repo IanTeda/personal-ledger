@@ -37,12 +37,8 @@
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#includes">Project Includes</a></li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
@@ -55,7 +51,8 @@
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#references">References</a></li>
+    <li><a href="#similar-applications">Similar Applications</a></li>
   </ol>
 </details>
 
@@ -85,7 +82,7 @@ The Personal Ledger has a number of standalone applications and services that ca
 * **TUI (Planned) :** A text interface frontend that can access the backend or be standalone.
 
 <!-- PROJECT IS BUILT WITH -->
-### Built With
+## Built With
 
 I have tried to keep the tech stack with Rust, because that is what I would like to learn and improve with. The Rust stack being used includes the following:
 
