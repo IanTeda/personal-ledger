@@ -94,7 +94,7 @@ pub fn init(
     telemetry_level: Option<&TelemetryLevels>,
 ) -> TelemetryResult<()> {
     // TODO: Add log file functionality
-    
+
     // ============================================================================
     // Phase 1: Configure Event Filtering (Tracing/Log Level)
     // ============================================================================
@@ -330,7 +330,10 @@ mod tests {
     fn test_result_type_alias() {
         // Test that TelemetryResult works as expected
         let ok_result: TelemetryResult<i32> = Ok(42);
-        assert_eq!(ok_result.unwrap(), 42);
+        match ok_result {
+            Ok(value) => assert_eq!(value, 42),
+            Err(_) => panic!("Expected Ok(42)"),
+        }
         
         let err_result: TelemetryResult<i32> = Err(TelemetryError::generic("test error"));
         assert!(err_result.is_err());
