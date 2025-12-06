@@ -6,8 +6,9 @@ edition = "2024"
 [dependencies]
 
 lib_rpc = { path = "../../crates/libs/lib-rpc" }
+lib_telemetry = { path = "../../crates/libs/lib-telemetry" }
 
-
+tracing = { workspace = true }
 tokio = { workspace = true }
 tonic = { workspace = true }
 

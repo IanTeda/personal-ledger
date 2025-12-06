@@ -1,6 +1,7 @@
 use tonic::{transport::Server, Request, Response, Status};
 
 use lib_rpc::{UtilitiesService, UtilitiesServiceServer, PingRequest, PingResponse};
+use lib_telemetry as telemetry;
 
 #[derive(Default)]
 pub struct MyUtilitiesService {}
@@ -26,7 +27,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let addr = "0.0.0.0:50051".parse().unwrap();
     let utility_server = MyUtilitiesService::default();
 
-    println!("UtilitiesServiceServer listening on {addr}");
+    let tracing_level = Some(telemetry::TelemetryLevels::DEBUG);
+    telemetry::init(tracing_level.as_ref())?;
+
+    tracing::info!("UtilitiesServiceServer listening on {addr}");
 
     Server::builder()
         .add_service(UtilitiesServiceServer::new(utility_server))

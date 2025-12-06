@@ -109,8 +109,10 @@ name = "backend"
 version = "0.1.0"
 dependencies = [
  "lib_rpc",
+ "lib_telemetry",
  "tokio",
  "tonic",
+ "tracing",
 ]
 
 [[package]]

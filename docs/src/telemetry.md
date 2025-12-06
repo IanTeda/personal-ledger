@@ -11,9 +11,9 @@ summary: 'Comprehensive guide to telemetry and logging in the Personal Ledger
 application, including configuration, usage patterns, and best practices.'
 post_date: '2025-12-06'
 ---
+# Telemetry (Logging)
 
-Because we are using asynchronous functions, we use telemetry to group together
-log outputs in a meaningful way.
+Because we are using asynchronous functions, we use telemetry to group together log outputs in a meaningful way.
 
 ## Overview
 
@@ -21,6 +21,8 @@ The Personal Ledger application uses a structured logging system based on the
 [`tracing`](https://docs.rs/tracing/latest/tracing/) crate. This provides
 hierarchical, contextual logging that makes it easier to understand application
 flow and debug issues in asynchronous code.
+
+The telemetry library will use `WARN` level if no level is set.
 
 ## Telemetry Levels
 

@@ -1,5 +1,10 @@
 {
   "cSpell.words": [
-    "backticks"
+    "appender",
+    "backticks",
+    "libs",
+    "lossy",
+    "serde",
+    "thiserror"
   ]
 }
