@@ -30,7 +30,7 @@ resolver = "3"
 # Or manually by creating a new directory with a `Cargo.toml` file and including its
 # relative path here, e.g., "crates/new-crate"
 # members = ["crates/backend","crates/lib-config", "crates/lib-domain", "crates/lib-rpc"]
-members = ["crates/backend","crates/libs/lib-rpc"]
+members = ["crates/backend", "crates/libs/lib-telemetry","crates/libs/lib-rpc"]
 
 
 # Define shared dependencies here to ensure consistent versions across workspace members

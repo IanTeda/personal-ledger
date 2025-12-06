@@ -61,7 +61,7 @@
 
 [![Personal Ledger Screenshot][product-screenshot]](https://github.com/IanTeda/personal-ledger)
 
-The Personal Ledger is a money, investment and asset tracking application to help you understand what you have and to make informed decisions.
+**Personal Ledger** aims to provide its users with an intuitive and user-friendly interface that offers insights into their spending habits and investment position. By presenting information clearly and concisely, users can effectively monitor their overall financial health, make informed decisions, and ultimately achieve their personal financial goals.
 
 Motivation for Personal Ledger:
 
