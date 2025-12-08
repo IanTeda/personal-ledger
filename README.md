@@ -19,7 +19,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/IanTeda/personal-ledger">
-        <img src="https://github.com/IanTeda/personal-ledger/raw/main/docs/src/images/logo.png" alt="Logo" width="80" height="80">
+        <img src="docs/src/images/logo.png" alt="Logo" width="80" height="80">
     </a>
     <h3 align="center">Personal Ledger</h3>
     <p align="center">
@@ -61,7 +61,7 @@
 
 [![Personal Ledger Screenshot][product-screenshot]](https://github.com/IanTeda/personal-ledger)
 
-The Personal Ledger is a money, investment and asset tracking application to help you understand what you have and to make informed decisions.
+**Personal Ledger** aims to provide its users with an intuitive and user-friendly interface that offers insights into their spending habits and investment position. By presenting information clearly and concisely, users can effectively monitor their overall financial health, make informed decisions, and ultimately achieve their personal financial goals.
 
 Motivation for Personal Ledger:
 
@@ -217,4 +217,4 @@ Below is a list of similar applications that you might prefer to use:
 <!-- [license-shield]: https://img.shields.io/github/license/IanTeda/personal-ledger.svg?style=for-the-badge -->
 [license-shield]: https://img.shields.io/github/license/IanTeda/personal-ledger.svg?style=for-the-badge
 [license-url]: https://github.com/IanTeda/personal-ledger/blob/master/LICENSE.txt
-[product-screenshot]: https://github.com/IanTeda/personal-ledger/raw/main/docs/src/images/screenshot.png
+[product-screenshot]: docs/src/images/screenshot.png

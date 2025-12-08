@@ -64,6 +64,12 @@ my-app/
 │   │       ├── lib.rs
 │   │       └── utilities.rs
 |   |       └── ...
+|   |
+│   ├── lib-telemetry/                     # Telemetry module for the project
+│   │   ├── Cargo.toml
+│   │   └── src/
+│   │       ├── lib.rs
+│   │       ├── error.rs
 │   │
 │   ├── tui/                    # Ratatui / crossterm UI (library so it can be reused)
 │   │   ├── Cargo.toml
@@ -80,5 +86,6 @@ my-app/
 │   └── desktop/                # Binary: Standalone desktop (TUI or egui/tauri) + embedded DB
 │       ├── Cargo.toml
 │       └── src/main.rs
+|
 └── rust-toolchain.toml         # Optional: pin toolchain + components
 ```
