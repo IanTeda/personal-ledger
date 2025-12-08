@@ -31,10 +31,11 @@ impl UtilitiesService for MyUtilitiesService {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
-    let _config = config::LedgerConfig::parse(None)?;
+    let config = config::LedgerConfig::parse(None)?;
 
-    let tracing_level = Some(telemetry::TelemetryLevels::DEBUG);
-    telemetry::init(tracing_level.as_ref())?;
+    let telemetry_level = Some(&config.telemetry_config().telemetry_level());
+    telemetry::init(telemetry_level)?;
+    tracing::info!("Starting server with config: {:#?}", config);
 
     // let matched_results = command!().arg(
     //     Arg::new("firstname")

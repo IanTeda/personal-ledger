@@ -39,6 +39,7 @@ members = ["crates/server", "crates/libs/lib-config", "crates/libs/lib-telemetry
 # section of member crates as: fake = { workspace = true }
 [workspace.dependencies]
 chrono = { version = "0.4.42", features = ["serde", "clock"] }
+clap = { version = "4.5.53", features = ["derive", "cargo"] }
 fake = { version = "4.4.0", features = [
   "derive",
   "bigdecimal",

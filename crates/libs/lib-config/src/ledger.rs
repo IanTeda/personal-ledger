@@ -59,12 +59,9 @@ const APPLICATION_NAME: &str = "personal-ledger";
 const ENV_PREFIX: &str = "PERSONAL_LEDGER";
 
 #[derive(Debug, Clone, serde::Deserialize, serde::Serialize, Default)]
-#[allow(non_snake_case)]
-#[allow(nonstandard_style)]
-#[allow(clippy::struct_field_names)]
 pub struct LedgerConfig {
-    // This needs to be capitalised to allow for the ini header to be capitalised
-    pub Telemetry: telemetry::TelemetryConfig,
+    #[serde(alias = "Telemetry")]
+    pub telemetry: telemetry::TelemetryConfig,
 }
 
 impl LedgerConfig {
@@ -125,68 +122,75 @@ impl LedgerConfig {
             default_telemetry_level.to_string(),
         )?;
 
-        //-- 02. System config directory (lowest precedence after defaults)
-        if let Some(system_config) = Self::get_system_config_path().filter(|p| p.exists()) {
-            let path_str = system_config.to_str().ok_or_else(|| {
+        //-- helper: read INI file and normalise section headers to lowercase
+        let normalise_ini = |p: &Path| -> super::ConfigResult<String> {
+            let content = std::fs::read_to_string(p).map_err(|e| {
                 super::ConfigError::Validation(format!(
-                    "System config path contains invalid UTF-8: {:?}",
-                    system_config
+                    "Could not read config file {:?}: {}",
+                    p, e
                 ))
             })?;
+
+            let normalised = content
+                .lines()
+                .map(|line| {
+                    let trimmed = line.trim();
+                    if trimmed.starts_with('[') && trimmed.ends_with(']') {
+                        // Lowercase the section name inside the brackets
+                        let inner = &trimmed[1..trimmed.len() - 1];
+                        format!("[{}]", inner.to_lowercase())
+                    } else {
+                        line.to_string()
+                    }
+                })
+                .collect::<Vec<_>>()
+                .join("\n");
+
+            Ok(normalised)
+        };
+
+        //-- 02. System config directory (lowest precedence after defaults)
+        if let Some(system_config) = Self::get_system_config_path().filter(|p| p.exists()) {
+            let normalised = normalise_ini(&system_config)?;
             config_builder = config_builder.add_source(
-                config::File::with_name(path_str).format(config::FileFormat::Ini),
+                config::File::from_str(&normalised, config::FileFormat::Ini),
             );
         }
 
         //-- 03. User config directory
         if let Some(user_config) = Self::get_user_config_path().filter(|p| p.exists()) {
-            let path_str = user_config.to_str().ok_or_else(|| {
-                super::ConfigError::Validation(format!(
-                    "User config path contains invalid UTF-8: {:?}",
-                    user_config
-                ))
-            })?;
+            let normalised = normalise_ini(&user_config)?;
             config_builder = config_builder.add_source(
-                config::File::with_name(path_str).format(config::FileFormat::Ini),
+                config::File::from_str(&normalised, config::FileFormat::Ini),
             );
         }
 
         //-- 04. Executable directory
         if let Some(exec_config) = Self::get_executable_config_path().filter(|p| p.exists()) {
-            let path_str = exec_config.to_str().ok_or_else(|| {
-                super::ConfigError::Validation(format!(
-                    "Executable config path contains invalid UTF-8: {:?}",
-                    exec_config
-                ))
-            })?;
+            let normalised = normalise_ini(&exec_config)?;
             config_builder = config_builder.add_source(
-                config::File::with_name(path_str).format(config::FileFormat::Ini),
+                config::File::from_str(&normalised, config::FileFormat::Ini),
             );
         }
 
         //-- 05. Current working directory
-        let cwd_config = Self::get_cwd_config_path()?;
-        if cwd_config.exists() {
-            let path_str = cwd_config.to_str().ok_or_else(|| {
-                super::ConfigError::Validation(format!(
-                    "CWD config path contains invalid UTF-8: {:?}",
-                    cwd_config
-                ))
-            })?;
-            let file_source = config::File::with_name(path_str).format(config::FileFormat::Ini);
-            config_builder = config_builder.add_source(file_source);
+        let cwd_config = if config_file.is_none() {
+            Some(Self::get_cwd_config_path()?)
+        } else {
+            None
+        };
+        if let Some(cwd_config) = cwd_config.filter(|p| p.exists()) {
+            let normalised = normalise_ini(&cwd_config)?;
+            config_builder = config_builder.add_source(
+                config::File::from_str(&normalised, config::FileFormat::Ini),
+            );
         }
 
         //-- 06. Explicit config file
         if let Some(explicit_config) = config_file.filter(|p| p.exists()) {
-            let path_str = explicit_config.to_str().ok_or_else(|| {
-                super::ConfigError::Validation(format!(
-                    "Explicit config path contains invalid UTF-8: {:?}",
-                    explicit_config
-                ))
-            })?;
+            let normalised = normalise_ini(explicit_config)?;
             config_builder = config_builder.add_source(
-                config::File::with_name(path_str).format(config::FileFormat::Ini),
+                config::File::from_str(&normalised, config::FileFormat::Ini),
             );
         }
 
@@ -197,13 +201,6 @@ impl LedgerConfig {
         //-- 08. Build and Deserialize
         let config = config_builder.build()?;
         let ledger_config: LedgerConfig = config.try_deserialize()?;
-
-        if matches!(ledger_config.Telemetry.telemetry_level, telemetry::TelemetryLevels::DEBUG | telemetry::TelemetryLevels::TRACE) {
-            println!(
-                "\n------------------------------ [ CONFIGURATION ] ------------------------------  \n{:#?}       \n-------------------------------------------------------------------------------",
-            ledger_config
-            );
-        }
 
         Ok(ledger_config)
     }
@@ -254,7 +251,7 @@ impl LedgerConfig {
     ///
     /// Returns the path to the user's configuration file using the standard
     /// platform-specific config directory. This allows individual users to
-    /// customize their configuration without affecting other users.
+    /// customise their configuration without affecting other users.
     ///
     /// - **Linux**: `~/.config/personal-ledger/personal-ledger.conf` (or `$XDG_CONFIG_HOME`)
     /// - **macOS**: `~/Library/Preferences/personal-ledger/personal-ledger.conf`
@@ -304,7 +301,7 @@ impl LedgerConfig {
 
     /// Get the telemetry configuration.
     pub fn telemetry_config(&self) -> &lib_telemetry::TelemetryConfig {
-        &self.Telemetry
+        &self.telemetry
     }
 }
 
@@ -331,7 +328,7 @@ mod tests {
         let telemetry = config.telemetry_config();
         assert_eq!(
             telemetry.telemetry_level(),
-            config.Telemetry.telemetry_level()
+            config.telemetry.telemetry_level()
         );
     }
 
@@ -382,7 +379,7 @@ mod tests {
         let config = result.unwrap();
         // Should have default telemetry config
         assert_eq!(
-            config.Telemetry.telemetry_level(),
+            config.telemetry.telemetry_level(),
             telemetry::TelemetryConfig::default().telemetry_level()
         );
 
@@ -396,70 +393,128 @@ mod tests {
         let config_file = temp_dir.path().join("test.conf");
 
         // Create a config file with custom telemetry level (INI format)
-        let config_content = r#"
-[telemetry]
-telemetry_level = "debug"
-"#;
+        let config_content = 
+        r#"
+        [telemetry]
+        telemetry_level = "debug"
+        "#;
         fs::write(&config_file, config_content).unwrap();
 
         let result = LedgerConfig::parse(Some(&config_file));
         assert!(result.is_ok());
         let config = result.unwrap();
         assert_eq!(
-            config.Telemetry.telemetry_level(),
+            config.telemetry.telemetry_level(),
             telemetry::TelemetryLevels::DEBUG
         );
     }
 
     #[test]
-    fn parse_with_environment_variable_override() {
-        // Note: This test would require unsafe code to set environment variables
-        // For now, we skip this test as it's difficult to test safely
-        // In integration tests, this functionality can be verified
-    }
-
-    #[test]
-    fn parse_with_cwd_config_file() {
-        let temp_dir = TempDir::new().unwrap();
-        let original_cwd = env::current_dir().unwrap();
-
-        // Change to temp directory
-        env::set_current_dir(&temp_dir).unwrap();
-
-        // Create config directory and file
-        let config_dir = temp_dir.path().join("config");
-        fs::create_dir(&config_dir).unwrap();
-        let config_file = config_dir.join("personal-ledger.conf");
-
-        let config_content = r#"
-[telemetry]
-telemetry_level = "warn"
-"#;
-        fs::write(&config_file, config_content).unwrap();
-
-        // Ensure file exists before parsing
-        assert!(config_file.exists(), "Config file should exist");
-
-        let result = LedgerConfig::parse(None);
-        assert!(result.is_ok());
-        let config = result.unwrap();
-        assert_eq!(
-            config.Telemetry.telemetry_level(),
-            telemetry::TelemetryLevels::WARN
-        );
-
-        // Restore original directory
-        env::set_current_dir(original_cwd).unwrap();
-
-        // Keep temp_dir alive until here
-        drop(temp_dir);
-    }
-
-    #[test]
     fn parse_with_nonexistent_explicit_file_returns_error() {
-        let nonexistent_path = PathBuf::from("/nonexistent/path/config.conf");
+        let temp_dir = TempDir::new().unwrap();
+        let nonexistent_path = temp_dir.path().join("nonexistent.conf");
         let result = LedgerConfig::parse(Some(&nonexistent_path));
         // Should still succeed because the file is optional
         assert!(result.is_ok());
+    }
+
+    #[test]
+    fn parse_with_case_insensitive_telemetry_section() {
+        let temp_dir = TempDir::new().unwrap();
+        let config_file = temp_dir.path().join("test.conf");
+
+        // Create config with [telemetry]
+        let config_content = 
+        r#"
+        [telemetry]
+        telemetry_level = "info"
+        "#;
+        fs::write(&config_file, config_content).unwrap();
+
+        let result = LedgerConfig::parse(Some(&config_file));
+        if let Err(e) = &result {
+            println!("Parse error: {:?}", e);
+        }
+        assert!(result.is_ok());
+        let config = result.unwrap();
+        assert_eq!(
+            config.telemetry.telemetry_level(),
+            telemetry::TelemetryLevels::INFO
+        );
+    }
+
+    #[test]
+    fn parse_with_invalid_config_returns_error() {
+        let temp_dir = TempDir::new().unwrap();
+        let config_file = temp_dir.path().join("invalid.conf");
+
+        // Create invalid INI content
+        let config_content = 
+        r#"
+        [telemetry]
+        telemetry_level = "debug"
+        "#; // Missing closing bracket
+        fs::write(&config_file, config_content).unwrap();
+
+        let result = LedgerConfig::parse(Some(&config_file));
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn parse_with_invalid_telemetry_level_returns_error() {
+        let temp_dir = TempDir::new().unwrap();
+        let config_file = temp_dir.path().join("invalid_level.conf");
+
+        // Create config with invalid telemetry level
+        let config_content = 
+        r#"
+        [telemetry]
+        telemetry_level = "invalid"
+        "#;
+        fs::write(&config_file, config_content).unwrap();
+
+        let result = LedgerConfig::parse(Some(&config_file));
+        assert!(result.is_err());
+    }
+
+    #[test]
+    fn parse_precedence_explicit_over_cwd() {
+        let temp_dir = TempDir::new().unwrap();
+        let original_cwd = env::current_dir().unwrap();
+        env::set_current_dir(&temp_dir).unwrap();
+
+        // Create CWD config with warn
+        let config_dir = temp_dir.path().join("config");
+        fs::create_dir(&config_dir).unwrap();
+        let cwd_config_file = config_dir.join("personal-ledger.conf");
+        let cwd_content = 
+        r#"
+        [Telemetry]
+        telemetry_level = "warn"
+        "#;
+        fs::write(&cwd_config_file, cwd_content).unwrap();
+
+        // Create explicit config with debug
+        let explicit_file = temp_dir.path().join("explicit.conf");
+        let explicit_content = 
+        r#"
+        [Telemetry]
+        telemetry_level = "debug"
+        "#;
+        fs::write(&explicit_file, explicit_content).unwrap();
+
+        let result = LedgerConfig::parse(Some(&explicit_file));
+        if let Err(e) = &result {
+            println!("Parse error: {:?}", e);
+        }
+        assert!(result.is_ok());
+        let config = result.unwrap();
+        // Explicit should override CWD
+        assert_eq!(
+            config.telemetry.telemetry_level(),
+            telemetry::TelemetryLevels::DEBUG
+        );
+
+        env::set_current_dir(original_cwd).unwrap();
     }
 }
