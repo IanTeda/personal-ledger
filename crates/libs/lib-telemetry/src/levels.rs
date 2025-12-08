@@ -123,6 +123,34 @@ impl From<TelemetryLevels> for tracing::level_filters::LevelFilter {
     }
 }
 
+impl std::fmt::Display for TelemetryLevels {
+    /// Formats the telemetry level as a lowercase string.
+    ///
+    /// This implementation matches the serde serialization format, producing
+    /// lowercase strings like "info", "debug", etc. This ensures consistency
+    /// between serialized configuration and string representations.
+    ///
+    /// # Examples
+    ///
+    /// ```rust
+    /// use lib_telemetry::TelemetryLevels;
+    ///
+    /// assert_eq!(format!("{}", TelemetryLevels::INFO), "info");
+    /// assert_eq!(format!("{}", TelemetryLevels::DEBUG), "debug");
+    /// ```
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let level_str = match self {
+            TelemetryLevels::OFF => "off",
+            TelemetryLevels::ERROR => "error",
+            TelemetryLevels::WARN => "warn",
+            TelemetryLevels::INFO => "info",
+            TelemetryLevels::DEBUG => "debug",
+            TelemetryLevels::TRACE => "trace",
+        };
+        write!(f, "{}", level_str)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -247,5 +275,16 @@ mod tests {
                 }
             }
         }
+    }
+
+    #[test]
+    fn test_display_trait() {
+        // Test that Display produces the expected lowercase strings
+        assert_eq!(format!("{}", TelemetryLevels::OFF), "off");
+        assert_eq!(format!("{}", TelemetryLevels::ERROR), "error");
+        assert_eq!(format!("{}", TelemetryLevels::WARN), "warn");
+        assert_eq!(format!("{}", TelemetryLevels::INFO), "info");
+        assert_eq!(format!("{}", TelemetryLevels::DEBUG), "debug");
+        assert_eq!(format!("{}", TelemetryLevels::TRACE), "trace");
     }
 }

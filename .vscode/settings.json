@@ -2,9 +2,15 @@
   "cSpell.words": [
     "appender",
     "backticks",
+    "bigdecimal",
+    "chrono",
+    "codegen",
+    "color",
     "libs",
     "lossy",
+    "rustls",
     "serde",
+    "sqlx",
     "thiserror"
   ]
 }

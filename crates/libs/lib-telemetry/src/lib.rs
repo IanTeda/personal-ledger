@@ -1,6 +1,9 @@
+mod config;
 mod error;
 mod init;
 mod levels;
+
+pub use config::TelemetryConfig;
 
 // Re-export main types for easier access
 pub use error::{TelemetryError, TelemetryResult};

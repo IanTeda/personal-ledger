@@ -1,7 +1,13 @@
+#![allow(dead_code)]
+#![allow(unused_imports)]
+
 use tonic::{transport::Server, Request, Response, Status};
+
+use clap::{Arg, command};
 
 use lib_rpc::{UtilitiesService, UtilitiesServiceServer, PingRequest, PingResponse};
 use lib_telemetry as telemetry;
+use lib_config as config;
 
 #[derive(Default)]
 pub struct MyUtilitiesService {}
@@ -24,18 +30,28 @@ impl UtilitiesService for MyUtilitiesService {
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let addr = "0.0.0.0:50051".parse().unwrap();
-    let utility_server = MyUtilitiesService::default();
+
+    let _config = config::LedgerConfig::parse(None)?;
 
     let tracing_level = Some(telemetry::TelemetryLevels::DEBUG);
     telemetry::init(tracing_level.as_ref())?;
 
-    tracing::info!("UtilitiesServiceServer listening on {addr}");
+    // let matched_results = command!().arg(
+    //     Arg::new("firstname")
+    // ).get_matches();
 
-    Server::builder()
-        .add_service(UtilitiesServiceServer::new(utility_server))
-        .serve(addr)
-        .await?;
+    // let addr = "0.0.0.0:50051".parse().unwrap();
+    // let utility_server = MyUtilitiesService::default();
+
+    // let tracing_level = Some(telemetry::TelemetryLevels::DEBUG);
+    // telemetry::init(tracing_level.as_ref())?;
+
+    // tracing::info!("UtilitiesServiceServer listening on {addr}");
+
+    // Server::builder()
+    //     .add_service(UtilitiesServiceServer::new(utility_server))
+    //     .serve(addr)
+    //     .await?;
 
     Ok(())
 }
