@@ -58,9 +58,13 @@ const APPLICATION_NAME: &str = "personal-ledger";
 /// variable names, update this constant accordingly.
 const ENV_PREFIX: &str = "PERSONAL_LEDGER";
 
-#[derive(Debug, Clone, serde::Deserialize, Default)]
+#[derive(Debug, Clone, serde::Deserialize, serde::Serialize, Default)]
+#[allow(non_snake_case)]
+#[allow(nonstandard_style)]
+#[allow(clippy::struct_field_names)]
 pub struct LedgerConfig {
-    pub telemetry: telemetry::TelemetryConfig,
+    // This needs to be capitalised to allow for the ini header to be capitalised
+    pub Telemetry: telemetry::TelemetryConfig,
 }
 
 impl LedgerConfig {
@@ -104,7 +108,6 @@ impl LedgerConfig {
     }
 
     pub fn parse(config_file: Option<&Path>) -> super::ConfigResult<LedgerConfig> {
-
         // Higher precedence sources override lower precedence ones:
         // 1. Built-in defaults (lowest)
         // 2. System config files
@@ -121,7 +124,6 @@ impl LedgerConfig {
             "telemetry.telemetry_level",
             default_telemetry_level.to_string(),
         )?;
-
 
         //-- 02. System config directory (lowest precedence after defaults)
         if let Some(system_config) = Self::get_system_config_path().filter(|p| p.exists()) {
@@ -163,29 +165,16 @@ impl LedgerConfig {
         }
 
         //-- 05. Current working directory
-        match std::env::current_dir() {
-            Ok(cwd) => {
-                let cwd_config = cwd
-                    .join(APPLICATION_NAME)
-                    .join(format!("{}.conf", APPLICATION_NAME));
-                if cwd_config.exists() {
-                    let path_str = cwd_config.to_str().ok_or_else(|| {
-                        super::ConfigError::Validation(format!(
-                            "CWD config path contains invalid UTF-8: {:?}",
-                            cwd_config
-                        ))
-                    })?;
-                    let file_source = config::File::with_name(path_str).format(config::FileFormat::Ini);
-                    config_builder = config_builder.add_source(file_source);
-                }
-            }
-            Err(e) => {
-                // Return an error instead of just logging - CWD access failure is a real error
-                return Err(super::ConfigError::Validation(format!(
-                    "Could not get current directory for config loading: {}",
-                    e
-                )));
-            }
+        let cwd_config = Self::get_cwd_config_path()?;
+        if cwd_config.exists() {
+            let path_str = cwd_config.to_str().ok_or_else(|| {
+                super::ConfigError::Validation(format!(
+                    "CWD config path contains invalid UTF-8: {:?}",
+                    cwd_config
+                ))
+            })?;
+            let file_source = config::File::with_name(path_str).format(config::FileFormat::Ini);
+            config_builder = config_builder.add_source(file_source);
         }
 
         //-- 06. Explicit config file
@@ -209,7 +198,7 @@ impl LedgerConfig {
         let config = config_builder.build()?;
         let ledger_config: LedgerConfig = config.try_deserialize()?;
 
-        if matches!(ledger_config.telemetry.telemetry_level, telemetry::TelemetryLevels::INFO | telemetry::TelemetryLevels::TRACE) {
+        if matches!(ledger_config.Telemetry.telemetry_level, telemetry::TelemetryLevels::DEBUG | telemetry::TelemetryLevels::TRACE) {
             println!(
                 "\n------------------------------ [ CONFIGURATION ] ------------------------------  \n{:#?}       \n-------------------------------------------------------------------------------",
             ledger_config
@@ -293,9 +282,29 @@ impl LedgerConfig {
         })
     }
 
+    /// Get the current working directory configuration file path.
+    ///
+    /// Returns the path to a configuration file in the current working directory.
+    /// This allows project-specific configuration when running from a directory
+    /// that contains a config file.
+    ///
+    /// Returns an error if the current directory cannot be determined.
+    fn get_cwd_config_path() -> Result<PathBuf, super::ConfigError> {
+        let cwd = std::env::current_dir().map_err(|e| {
+            super::ConfigError::Validation(format!(
+                "Could not get current directory for config loading: {}",
+                e
+            ))
+        })?;
+        let dir = cwd
+            .join("config")
+            .join(format!("{}.conf", APPLICATION_NAME));
+        Ok(dir)
+    }
+
     /// Get the telemetry configuration.
     pub fn telemetry_config(&self) -> &lib_telemetry::TelemetryConfig {
-        &self.telemetry
+        &self.Telemetry
     }
 }
 
@@ -322,7 +331,7 @@ mod tests {
         let telemetry = config.telemetry_config();
         assert_eq!(
             telemetry.telemetry_level(),
-            config.telemetry.telemetry_level()
+            config.Telemetry.telemetry_level()
         );
     }
 
@@ -373,7 +382,7 @@ mod tests {
         let config = result.unwrap();
         // Should have default telemetry config
         assert_eq!(
-            config.telemetry.telemetry_level(),
+            config.Telemetry.telemetry_level(),
             telemetry::TelemetryConfig::default().telemetry_level()
         );
 
@@ -397,7 +406,7 @@ telemetry_level = "debug"
         assert!(result.is_ok());
         let config = result.unwrap();
         assert_eq!(
-            config.telemetry.telemetry_level(),
+            config.Telemetry.telemetry_level(),
             telemetry::TelemetryLevels::DEBUG
         );
     }
@@ -418,7 +427,7 @@ telemetry_level = "debug"
         env::set_current_dir(&temp_dir).unwrap();
 
         // Create config directory and file
-        let config_dir = temp_dir.path().join("personal-ledger");
+        let config_dir = temp_dir.path().join("config");
         fs::create_dir(&config_dir).unwrap();
         let config_file = config_dir.join("personal-ledger.conf");
 
@@ -435,7 +444,7 @@ telemetry_level = "warn"
         assert!(result.is_ok());
         let config = result.unwrap();
         assert_eq!(
-            config.telemetry.telemetry_level(),
+            config.Telemetry.telemetry_level(),
             telemetry::TelemetryLevels::WARN
         );
 
