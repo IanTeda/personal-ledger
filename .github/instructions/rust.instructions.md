@@ -11,7 +11,7 @@ These instructions are based on [The Rust Book](https://doc.rust-lang.org/book/)
 
 ## General Instructions
 
-- Always prioritize readability, safety, and maintainability.
+- Always prioritise readability, safety, and maintainability.
 - Use strong typing and leverage Rust's ownership system for memory safety.
 - Break down complex functions into smaller, more manageable functions.
 - For algorithm-related code, include explanations of the approach used.
@@ -50,7 +50,7 @@ These instructions are based on [The Rust Book](https://doc.rust-lang.org/book/)
 - Don't use `unwrap()` or `expect()` unless absolutely necessary—prefer proper error handling.
 - Avoid panics in library code—return `Result` instead.
 - Don't rely on global mutable state—use dependency injection or thread-safe containers.
-- Avoid deeply nested logic—refactor with functions or combinators.
+- Avoid deeply nested logic—refactor with functions or combinations.
 - Don't ignore warnings—treat them as errors during CI.
 - Avoid `unsafe` unless required and fully documented.
 - Don't overuse `clone()`, use borrowing instead of cloning unless ownership transfer is needed.
@@ -108,13 +108,14 @@ Eagerly implement common traits where appropriate:
 - Document error conditions, panic scenarios, and safety considerations.
 - Examples should use `?` operator, not `unwrap()` or deprecated `try!` macro.
 - Documentation should use Australian English, include rustdocs
+- Use the Fake crate to generate random data when writing tests
 
 ## Project Organization
 
 - Use semantic versioning in `Cargo.toml`.
 - Include comprehensive metadata: `description`, `license`, `repository`, `keywords`, `categories`.
 - Use feature flags for optional functionality.
-- Organize code into modules using `mod.rs` or named files.
+- Organise code into modules using `mod.rs` or named files.
 - Keep `main.rs` or `lib.rs` minimal - move logic to modules.
 
 ## Quality Checklist

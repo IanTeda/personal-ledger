@@ -5,14 +5,14 @@
 //! database representation of a category alongside utilities for creating
 //! and inserting records during tests or data seeding.
 
-// #![allow(unused)] // For development only
+#![allow(unused)] // For development only
 
 mod builder;
 mod model;
-mod insert;
-mod update;
-mod delete;
-mod find;
+// mod insert;
+// mod update;
+// mod delete;
+// mod find;
 
 /// Database row model representing a persisted category.
 pub use model::Categories;

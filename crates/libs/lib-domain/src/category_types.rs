@@ -161,7 +161,6 @@ impl CategoryTypes {
     /// let random_type = CategoryTypes::mock();
     /// // random_type will be one of: Asset, Liability, Income, Expense, or Equity
     /// ```
-    #[cfg(test)]
     pub fn mock() -> Self {
         use fake::Fake;
 

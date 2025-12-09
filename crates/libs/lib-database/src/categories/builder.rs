@@ -1,14 +1,15 @@
 //! # Category Builder
 //!
-//! Provides a fluent API for constructing [`Category`](crate::database::categories::Category)
-//! records. The builder enforces the presence of mandatory fields while providing
-//! sensible defaults for optional values. This is particularly useful for tests,
-//! fixtures, and data seeding utilities where creating category rows should be
-//! ergonomic and explicit.
+//! Provides a fluent API for constructing [`Categories`] records. The builder enforces
+//! the presence of mandatory fields while providing sensible defaults for optional values.
+//! This is particularly useful for tests, fixtures, and data seeding utilities where
+//! creating category rows should be ergonomic and explicit.
 
 #![allow(unused)] // For development only
 
-use crate::{database, domain};
+use lib_domain;
+
+use super::Categories;
 
 
 /// Errors emitted by [`CategoryBuilder::build`] when required data is missing.
@@ -27,21 +28,21 @@ pub enum CategoryBuilderError {
 	Code,
 }
 
-/// Fluent builder for [`Category`](crate::database::categories::Category) rows.
+/// Fluent builder for [`Categories`] rows.
 ///
 /// The builder collects optional pieces of data and ensures required values are
-/// supplied before constructing a fully-fledged [`Category`]. Where appropriate,
+/// supplied before constructing a fully-fledged [`Categories`]. Where appropriate,
 /// defaults are injected—such as marking the category as active or generating a
 /// deterministic code derived from the persisted identifier.
 #[derive(Debug, Default, Clone)]
 pub struct CategoriesBuilder {
-	id: Option<domain::RowID>,
+	id: Option<lib_domain::RowID>,
 	code: Option<String>,
 	name: Option<String>,
 	description: Option<String>,
-	url_slug: Option<domain::UrlSlug>,
-	category_type: Option<domain::CategoryTypes>,
-	color: Option<domain::HexColor>,
+	url_slug: Option<lib_domain::UrlSlug>,
+	category_type: Option<lib_domain::CategoryTypes>,
+	color: Option<lib_domain::HexColor>,
 	icon: Option<String>,
 	is_active: Option<bool>,
 	created_on: Option<chrono::DateTime<chrono::Utc>>,
@@ -57,7 +58,7 @@ impl CategoriesBuilder {
 
 	/// Use an existing [`RowID`] for the category.
 	#[must_use]
-	pub fn with_id(mut self, id: domain::RowID) -> Self {
+	pub fn with_id(mut self, id: lib_domain::RowID) -> Self {
 		self.id = Some(id);
 		self
 	}
@@ -99,35 +100,35 @@ impl CategoriesBuilder {
 
 	/// Use a pre-computed URL slug.
 	#[must_use]
-	pub fn with_url_slug(mut self, url_slug: domain::UrlSlug) -> Self {
+	pub fn with_url_slug(mut self, url_slug: lib_domain::UrlSlug) -> Self {
 		self.url_slug = Some(url_slug);
 		self
 	}
 
 	/// Provide an optional URL slug.
 	#[must_use]
-	pub fn with_url_slug_opt(mut self, url_slug: Option<domain::UrlSlug>) -> Self {
+	pub fn with_url_slug_opt(mut self, url_slug: Option<lib_domain::UrlSlug>) -> Self {
 		self.url_slug = url_slug;
 		self
 	}
 
 	/// Assign the accounting category type.
 	#[must_use]
-	pub fn with_category_type(mut self, category_type: domain::CategoryTypes) -> Self {
+	pub fn with_category_type(mut self, category_type: lib_domain::CategoryTypes) -> Self {
 		self.category_type = Some(category_type);
 		self
 	}
 
 	/// Set an optional colour.
 	#[must_use]
-	pub fn with_color(mut self, color: domain::HexColor) -> Self {
+	pub fn with_color(mut self, color: lib_domain::HexColor) -> Self {
 		self.color = Some(color);
 		self
 	}
 
 	/// Provide an optional colour value.
 	#[must_use]
-	pub fn with_color_opt(mut self, color: Option<domain::HexColor>) -> Self {
+	pub fn with_color_opt(mut self, color: Option<lib_domain::HexColor>) -> Self {
 		self.color = color;
 		self
 	}
@@ -187,8 +188,8 @@ impl CategoriesBuilder {
 		self.updated_on = updated_on;
 		self
 	}
-	/// Build the [`Category`], returning an error when required fields are missing.
-	pub fn build(self) -> Result<database::Categories, CategoryBuilderError> {
+	/// Build the [`Categories`], returning an error when required fields are missing.
+	pub fn build(self) -> Result<Categories, CategoryBuilderError> {
 		let name = self
 			.name
 			.ok_or(CategoryBuilderError::Name)?;
@@ -203,7 +204,7 @@ impl CategoriesBuilder {
 		let url_slug = self.url_slug;
 		let now = chrono::Utc::now();
 
-		Ok(database::Categories {
+		Ok(Categories {
 			id,
 			code,
 			name,
@@ -222,7 +223,7 @@ impl CategoriesBuilder {
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use crate::domain::{CategoryTypes, HexColor, UrlSlug};
+	use lib_domain::{CategoryTypes, HexColor, UrlSlug};
 	
 	#[test]
 	fn build_requires_name() {
@@ -273,7 +274,7 @@ mod tests {
 		let slug = UrlSlug::parse("custom-slug").unwrap();
 
 		let category = CategoriesBuilder::new()
-			.with_id(domain::RowID::new())
+			.with_id(lib_domain::RowID::new())
 			.with_name("Utilities")
 			.with_category_type(CategoryTypes::Expense)
 			.with_code("UTIL.001")

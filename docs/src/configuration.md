@@ -2,6 +2,41 @@
 
 The Personal Ledger application will look for configuration files in multiple locations. It uses a layered configuration system with a defined precedence order. This provides flexibility for different deployment scenarios, from development to production.
 
+## INI Configuration Format
+
+Personal Ledger uses the INI (Initialisation) file format for configuration files. INI is a simple, human-readable format consisting of sections, keys, and values.
+
+### Basic Syntax
+
+- **Sections**: Enclosed in square brackets `[]`, e.g., `[Telemetry]`
+- **Keys and Values**: `key = value`, e.g., `telemetry_level = "debug"`
+- **Comments**: Lines starting with `#` or `;` are comments
+- **Case Sensitivity**: Section names are case-insensitive (e.g., `[Telemetry]` and `[telemetry]` are equivalent)
+
+### Example Structure
+
+```ini
+# This is a comment
+[SectionName]
+key1 = "string value"
+key2 = 42
+key3 = true
+```
+
+### Rules
+
+- Section names should be descriptive and contain only alphanumeric characters, underscores, and hyphens
+- Keys should use lowercase with underscores (snake_case)
+- String values should be quoted when they contain spaces or special characters
+- Boolean values: `true` or `false`
+- Numeric values: integers or floats as appropriate
+
+### Section Names
+
+Configuration sections group related settings together. The application currently supports:
+
+- `[Telemetry]`: Logging and telemetry settings
+
 ## Configuration Hierarchy
 
 Configuration settings are loaded from multiple sources in the following precedence order (highest to lowest):

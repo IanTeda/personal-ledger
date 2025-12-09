@@ -50,7 +50,8 @@
         "usernamehw.errorlens",
         "vadimcn.vscode-lldb",
         "vector-of-bool.gitflow",
-        "zxh404.vscode-proto3"
+        "zxh404.vscode-proto3",
+        "pomdtr.excalidraw-editor"
       ],
       "settings": {
         "sqltools.useConnectionStorage": "workspace",

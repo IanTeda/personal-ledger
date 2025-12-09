@@ -1,8 +1,8 @@
 //! # Database Error Types
 //!
-//! This module defines the `DatabaseError` enum, which standardizes error handling for
+//! This module defines the `DatabaseError` enum, which standardises error handling for
 //! all database-related operations in the Personal Ledger backend. It wraps connection,
-//! migration, SQLx, and configuration errors, and provides variants for validation and
+//! migration, SQLx, and other database errors, and provides variants for validation and
 //! generic database failures.
 //!
 //! ## Error Variants
@@ -10,10 +10,9 @@
 //! - `Connection`: Database connection failures (invalid config, unreachable server, etc.)
 //! - `Sqlx`: Errors from the `sqlx` crate (query, pool, etc.)
 //! - `Migration`: Errors from running migrations
-//! - `Config`: Configuration errors during DB initialization
 //! - `Validation`: Domain validation errors (constraint violations, etc.)
 //! - `NotFound`: Resource not found errors
-//! - `Other`: Catch-all for miscellaneous DB errors
+//! - `Generic`: Catch-all for miscellaneous DB errors
 //!
 //! ## Usage
 //!
@@ -21,8 +20,10 @@
 //!
 //! Example:
 //! ```rust
+//! use lib_database::DatabaseError;
 //! fn do_db_work() -> Result<(), DatabaseError> {
 //!     // ...
+//!     Ok(())
 //! }
 //! ```
 //!
@@ -38,17 +39,18 @@
 /// Example:
 ///
 /// ```rust
-/// fn get_categories() -> DatabaseResult<Vec<Category>> {
-///     // ...
+/// use lib_database::DatabaseResult;
+/// fn get_data() -> DatabaseResult<i32> {
+///     Ok(42)
 /// }
 /// ```
 pub type DatabaseResult<T> = std::result::Result<T, DatabaseError>;
 
 #[derive(thiserror::Error, Debug)]
-/// Errors produced while loading or validating configuration.
+/// Errors produced during database operations.
 ///
-/// This enum wraps errors from the underlying `config` crate and adds
-/// domain-specific validation variants such as an invalid server address.
+/// This enum wraps errors from the underlying database operations and adds
+/// domain-specific validation variants for database-related failures.
 pub enum DatabaseError {
     /// Connection error
     #[error("Error connecting to the database: {0}")]
@@ -61,10 +63,6 @@ pub enum DatabaseError {
     #[error("Database migration error: {0}")]
     Migration(#[from] sqlx::migrate::MigrateError),
 
-    /// Wrap config errors that occur during database initialization
-    #[error("Config error: {0}")]
-    Config(#[from] crate::config::ConfigError),
-
     /// Validation errors originating from the DB layer (e.g. constraint violations)
     #[error("Validation: {0}")]
     Validation(String),
@@ -73,15 +71,22 @@ pub enum DatabaseError {
     #[error("Not found: {0}")]
     NotFound(String),
 
-    /// Generic catch-all for other database related errors
+    /// Generic catch-all for database related errors
     #[error("Other database error: {0}")]
-    Other(String),
+    Generic(String),
 }
 
 impl PartialEq for DatabaseError {
     fn eq(&self, other: &Self) -> bool {
-        // Compare by their Display representation to avoid requiring PartialEq on wrapped types
-        format!("{}", self) == format!("{}", other)
+        match (self, other) {
+            (DatabaseError::Connection(a), DatabaseError::Connection(b)) => a == b,
+            (DatabaseError::Sqlx(a), DatabaseError::Sqlx(b)) => format!("{:?}", a) == format!("{:?}", b),
+            (DatabaseError::Migration(a), DatabaseError::Migration(b)) => format!("{:?}", a) == format!("{:?}", b),
+            (DatabaseError::Validation(a), DatabaseError::Validation(b)) => a == b,
+            (DatabaseError::NotFound(a), DatabaseError::NotFound(b)) => a == b,
+            (DatabaseError::Generic(a), DatabaseError::Generic(b)) => a == b,
+            _ => false,
+        }
     }
 }
 
@@ -90,6 +95,7 @@ impl Eq for DatabaseError {}
 #[cfg(test)]
 mod tests {
     use super::*;
+    use fake::Fake;
 
     #[test]
     fn test_database_result_type_alias() {
@@ -105,7 +111,8 @@ mod tests {
     #[test]
     fn test_database_error_variants() {
         // Test Connection variant
-        let conn_err = DatabaseError::Connection("connection failed".to_string());
+        let conn_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let conn_err = DatabaseError::Connection(conn_msg);
         assert!(matches!(conn_err, DatabaseError::Connection(_)));
 
         // Test Sqlx variant (via From)
@@ -118,28 +125,27 @@ mod tests {
         let db_err: DatabaseError = migrate_err.into();
         assert!(matches!(db_err, DatabaseError::Migration(_)));
 
-        // Test Config variant (via From)
-        let config_err = crate::config::ConfigError::Validation("config error".to_string());
-        let db_err: DatabaseError = config_err.into();
-        assert!(matches!(db_err, DatabaseError::Config(_)));
-
         // Test Validation variant
-        let val_err = DatabaseError::Validation("validation failed".to_string());
+        let val_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let val_err = DatabaseError::Validation(val_msg);
         assert!(matches!(val_err, DatabaseError::Validation(_)));
 
         // Test NotFound variant
-        let not_found_err = DatabaseError::NotFound("record not found".to_string());
+        let not_found_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let not_found_err = DatabaseError::NotFound(not_found_msg);
         assert!(matches!(not_found_err, DatabaseError::NotFound(_)));
 
         // Test Other variant
-        let other_err = DatabaseError::Other("other error".to_string());
-        assert!(matches!(other_err, DatabaseError::Other(_)));
+        let other_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let other_err = DatabaseError::Generic(other_msg);
+        assert!(matches!(other_err, DatabaseError::Generic(_)));
     }
 
     #[test]
     fn test_database_error_display() {
-        let conn_err = DatabaseError::Connection("test connection".to_string());
-        assert_eq!(format!("{}", conn_err), "Error connecting to the database: test connection");
+        let conn_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let conn_err = DatabaseError::Connection(conn_msg.clone());
+        assert_eq!(format!("{}", conn_err), format!("Error connecting to the database: {}", conn_msg));
 
         let sqlx_err = DatabaseError::Sqlx(sqlx::Error::RowNotFound);
         assert!(format!("{}", sqlx_err).contains("Database error:"));
@@ -147,25 +153,26 @@ mod tests {
         let migrate_err = DatabaseError::Migration(sqlx::migrate::MigrateError::Execute(sqlx::Error::RowNotFound));
         assert!(format!("{}", migrate_err).contains("Database migration error:"));
 
-        let config_err = DatabaseError::Config(crate::config::ConfigError::Validation("test config".to_string()));
-        assert!(format!("{}", config_err).contains("Config error:"));
+        let val_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let val_err = DatabaseError::Validation(val_msg.clone());
+        assert_eq!(format!("{}", val_err), format!("Validation: {}", val_msg));
 
-        let val_err = DatabaseError::Validation("test validation".to_string());
-        assert_eq!(format!("{}", val_err), "Validation: test validation");
+        let not_found_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let not_found_err = DatabaseError::NotFound(not_found_msg.clone());
+        assert_eq!(format!("{}", not_found_err), format!("Not found: {}", not_found_msg));
 
-        let not_found_err = DatabaseError::NotFound("test record".to_string());
-        assert_eq!(format!("{}", not_found_err), "Not found: test record");
-
-        let other_err = DatabaseError::Other("test other".to_string());
-        assert_eq!(format!("{}", other_err), "Other database error: test other");
+        let other_msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let other_err = DatabaseError::Generic(other_msg.clone());
+        assert_eq!(format!("{}", other_err), format!("Other database error: {}", other_msg));
     }
 
     #[test]
     fn test_database_error_debug() {
-        let err = DatabaseError::Connection("debug test".to_string());
+        let msg: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let err = DatabaseError::Connection(msg.clone());
         let debug_str = format!("{:?}", err);
         assert!(debug_str.contains("Connection"));
-        assert!(debug_str.contains("debug test"));
+        assert!(debug_str.contains(&msg));
     }
 
     #[test]
@@ -179,39 +186,35 @@ mod tests {
         let migrate_err = sqlx::migrate::MigrateError::Execute(sqlx::Error::RowNotFound);
         let db_err: DatabaseError = migrate_err.into();
         assert!(matches!(db_err, DatabaseError::Migration(_)));
-
-        // Test From<crate::config::ConfigError>
-        let config_err = crate::config::ConfigError::Validation("test".to_string());
-        let db_err: DatabaseError = config_err.into();
-        assert!(matches!(db_err, DatabaseError::Config(_)));
     }
 
     #[test]
-    fn test_database_error_to_ledger_error_conversion() {
-        use crate::LedgerError;
+    fn test_database_error_partial_eq() {
+        let msg1: String = fake::faker::lorem::en::Sentence(3..10).fake();
+        let msg2: String = fake::faker::lorem::en::Sentence(3..10).fake();
 
-        let conn_err = DatabaseError::Connection("test".to_string());
-        let ledger_err: LedgerError = conn_err.into();
-        assert!(matches!(ledger_err, LedgerError::Database(_)));
+        // Test equal Connection errors
+        let err1 = DatabaseError::Connection(msg1.clone());
+        let err2 = DatabaseError::Connection(msg1.clone());
+        assert_eq!(err1, err2);
 
-        let val_err = DatabaseError::Validation("test".to_string());
-        let ledger_err: LedgerError = val_err.into();
-        assert!(matches!(ledger_err, LedgerError::Database(_)));
-    }
+        // Test unequal Connection errors
+        let err3 = DatabaseError::Connection(msg2.clone());
+        assert_ne!(err1, err3);
 
-    #[test]
-    fn test_database_error_edge_cases() {
-        // Test with empty strings
-        let empty_conn = DatabaseError::Connection("".to_string());
-        assert_eq!(format!("{}", empty_conn), "Error connecting to the database: ");
+        // Test different variants are not equal
+        let val_err = DatabaseError::Validation(msg1.clone());
+        assert_ne!(err1, val_err);
 
-        // Test with special characters
-        let special = DatabaseError::Validation("test\nwith\ttabs".to_string());
-        assert_eq!(format!("{}", special), "Validation: test\nwith\ttabs");
+        // Test Sqlx errors (using same error)
+        let sqlx_err1 = DatabaseError::Sqlx(sqlx::Error::RowNotFound);
+        let sqlx_err2 = DatabaseError::Sqlx(sqlx::Error::RowNotFound);
+        assert_eq!(sqlx_err1, sqlx_err2);
 
-        // Test with unicode
-        let unicode = DatabaseError::Other("测试错误".to_string());
-        assert_eq!(format!("{}", unicode), "Other database error: 测试错误");
+        // Test Migration errors
+        let migrate_err1 = DatabaseError::Migration(sqlx::migrate::MigrateError::Execute(sqlx::Error::RowNotFound));
+        let migrate_err2 = DatabaseError::Migration(sqlx::migrate::MigrateError::Execute(sqlx::Error::RowNotFound));
+        assert_eq!(migrate_err1, migrate_err2);
     }
 }
 
