@@ -74,7 +74,7 @@
 //! The underlying SQLx connection pools handle concurrent access safely.
 
 /// Database entity categories for organising financial records.
-mod categories; 
+mod categories;
 pub use categories::{Categories};
 
 mod config;

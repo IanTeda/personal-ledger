@@ -9,20 +9,26 @@
     "cloneable",
     "codegen",
     "color",
+    "ehthumbs",
     "getters",
     "libs",
     "lossy",
     "mdbook",
     "newtypes",
+    "NOCOUNT",
+    "pids",
     "programmatically",
     "prost",
     "RRGGBB",
+    "rustc",
     "rustdoc",
     "RUSTDOCFLAGS",
     "rustdocs",
     "rustls",
     "serde",
     "sqlx",
-    "thiserror"
+    "strftime",
+    "thiserror",
+    "upserted"
   ]
 }
