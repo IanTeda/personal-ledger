@@ -7,6 +7,7 @@ description = "Build the backend binary"
 command = "cargo"
 args = ["build", "--package", "backend", "--bin", "backend", "--release"]
 
+
 # -------------------------------[MD BOOK]-------------------------------------
 
 [tasks.docs-rustdoc]
@@ -30,3 +31,58 @@ install_crate = "mdbook"
 description = "Serve mdBook documentation on port 8001"
 command = "mdbook"
 args = ["serve", "--port", "8001"]
+
+
+# -------------------------------[DATABASE]------------------------------------
+
+## Drop Database
+## $ cargo make db-drop
+[tasks.db-drop]
+workspace = false
+install_crate = "sqlx-cli"
+command = "sqlx"
+args = ["database", "drop", "-y"]
+
+## Create Database
+## $ cargo make db-create
+[tasks.db-create]
+workspace = false
+install_crate = "sqlx-cli"
+command = "sqlx"
+args = ["database", "create"]
+
+## Migrate database
+## $ cargo make db-migrate
+[tasks.db-migrate]
+workspace = false
+install_crate = "sqlx-cli"
+command = "sqlx"
+args = ["migrate", "run", "--source", "crates/libs/lib-database/migrations"]
+
+## Prepare database (check)
+## $ cargo make db-prepare
+[tasks.db-prepare]
+workspace = false
+install_crate = "sqlx-cli"
+command = "cargo"
+args = ["sqlx", "prepare", "--check", "--workspace"]
+
+## Prepare database (generate)
+## $ cargo make db-prepare-generate
+[tasks.db-prepare-generate]
+workspace = false
+install_crate = "sqlx-cli"
+command = "cargo"
+args = ["sqlx", "prepare", "--workspace"]
+
+# Run Database tasks.
+# $ cargo make db
+[tasks.db]
+workspace = false
+dependencies = [
+    "db-drop",
+    "db-create",
+    "db-migrate",
+    "db-prepare-generate",
+    "db-prepare",
+]
