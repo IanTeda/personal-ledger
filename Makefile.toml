@@ -59,21 +59,21 @@ install_crate = "sqlx-cli"
 command = "sqlx"
 args = ["migrate", "run", "--source", "crates/libs/lib-database/migrations"]
 
-## Prepare database (check)
-## $ cargo make db-prepare
-[tasks.db-prepare]
-workspace = false
-install_crate = "sqlx-cli"
-command = "cargo"
-args = ["sqlx", "prepare", "--check", "--workspace"]
-
 ## Prepare database (generate)
 ## $ cargo make db-prepare-generate
 [tasks.db-prepare-generate]
 workspace = false
 install_crate = "sqlx-cli"
-command = "cargo"
-args = ["sqlx", "prepare", "--workspace"]
+command = "sh"
+args = ["-c", "cd crates/libs/lib-database && DATABASE_URL=\"sqlite:/home/ian/Workspaces/personal-ledger/.personal-ledger-dev.db\" cargo sqlx prepare"]
+
+## Check the prepared queries to confirm everything is there. Should be run after db-prepare-generate
+## $ cargo make db-prepare-check
+[tasks.db-prepare-check]
+workspace = false
+install_crate = "sqlx-cli"
+command = "sh"
+args = ["-c", "cd crates/libs/lib-database && DATABASE_URL=\"sqlite:/home/ian/Workspaces/personal-ledger/.personal-ledger-dev.db\" cargo sqlx prepare --check"]
 
 # Run Database tasks.
 # $ cargo make db
@@ -84,5 +84,5 @@ dependencies = [
     "db-create",
     "db-migrate",
     "db-prepare-generate",
-    "db-prepare",
+    "db-prepare-check",
 ]
