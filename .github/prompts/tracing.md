@@ -1,6 +1,6 @@
 # Comprehensive Tracing Instructions
 
-This guide provides instructions for adding comprehensive tracing from DEBUG to WARN levels in the Personal Ledger Rust application. Follow these patterns to ensure consistent, useful telemetry across the codebase.
+This guide provides instructions for adding comprehensive tracing from TRACE to ERROR levels in the Personal Ledger Rust application. Follow these patterns to ensure consistent, useful telemetry across the codebase.
 
 ## Overview
 
@@ -23,6 +23,12 @@ Instrument functions that:
 - Make external API calls
 - Process user input
 - Have complex logic or multiple steps
+
+When assigning the instrumentation level consider the following best practices:
+
+- **level = "debug":** (recommended default): Best for most instrumented functions, especially database operations, business logic, and internal APIs. Provides detailed visibility for debugging without being overly verbose in production.
+- **level = "info":** Use for high-level operations, entry points, or user-facing actions. Good for HTTP handlers, CLI commands, or major workflow steps.
+- **level = "trace":** Reserve for very detailed, potentially expensive instrumentation. Use when you need to track internal implementation details or when spans might be created frequently.
 
 ### Instrumentation Pattern
 

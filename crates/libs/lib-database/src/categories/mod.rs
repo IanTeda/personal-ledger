@@ -10,7 +10,7 @@
 mod builder;
 mod model;
 mod insert;
-// mod update;
+mod update;
 // mod delete;
 // mod find;
 

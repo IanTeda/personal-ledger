@@ -122,7 +122,7 @@ pub enum AccountStatus {
 
     /// Account has been suspended and cannot perform actions
     Suspended,
-    
+
     /// Account has been permanently deactivated
     Deactivated,
 }
@@ -223,6 +223,10 @@ pub enum AuthError {
     DatabaseError(#[from] sqlx::Error),
 }
 ```
+
+## File Header Documentation
+
+Include a comprehensive file header comments that explains the structure and approach to the module/file
 
 ## Project-Specific Conventions
 

@@ -8,6 +8,10 @@ The `fake` crate provides deterministic random data generation for testing. Use 
 
 ## Test Data Generation Patterns
 
+### SQLX Test
+
+When writing unit tests for database functions use `#[sqlx::test]` derive macro to stub the test with a database
+
 ### Mock Data Methods
 
 Implement mock data generation methods on your types for consistent test data creation:
@@ -353,17 +357,7 @@ mod database_tests {
     use super::*;
     use sqlx::SqlitePool;
 
-    async fn setup_test_database() -> SqlitePool {
-        // Create in-memory database for testing
-        let pool = SqlitePool::connect("sqlite::memory:").await.unwrap();
-
-        // Run migrations
-        sqlx::migrate!("./migrations").run(&pool).await.unwrap();
-
-        pool
-    }
-
-    #[tokio::test]
+    #[sqlx::test]
     async fn create_category_with_mock_data() {
         let pool = setup_test_database().await;
 

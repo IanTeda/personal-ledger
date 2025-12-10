@@ -5,10 +5,6 @@
 //! This is particularly useful for tests, fixtures, and data seeding utilities where
 //! creating category rows should be ergonomic and explicit.
 
-#![allow(unused)] // For development only
-
-use lib_domain;
-
 use super::Categories;
 
 
