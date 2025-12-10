@@ -11,7 +11,7 @@ mod builder;
 mod model;
 mod insert;
 mod update;
-// mod delete;
+mod delete;
 // mod find;
 
 /// Database row model representing a persisted category.
