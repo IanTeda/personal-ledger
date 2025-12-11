@@ -8,11 +8,11 @@
 #![allow(unused)] // For development only
 
 mod builder;
-mod model;
-mod insert;
-mod update;
 mod delete;
-// mod find;
+mod find;
+mod insert;
+mod model;
+mod update;
 
 /// Database row model representing a persisted category.
 pub use model::Categories;

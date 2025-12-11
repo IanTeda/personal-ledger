@@ -766,7 +766,7 @@ mod tests {
 
         /// Property-based test: Bulk delete handles varied mock data atomically
         #[sqlx::test]
-        async fn test_delete_many_by_id_randomized(pool: SqlitePool) {
+        async fn test_delete_many_by_id_randomised(pool: SqlitePool) {
             for i in 0..10 {
                 let count = (1..5).fake::<usize>(); // Random count 1-4
                 let mut ids = Vec::new();
@@ -833,7 +833,7 @@ mod tests {
 
         /// Property-based test: Delete inactive/all handle varied data
         #[sqlx::test]
-        async fn test_delete_inactive_randomized(pool: SqlitePool) {
+        async fn test_delete_inactive_randomised(pool: SqlitePool) {
             for i in 0..10 {
                 // Insert mix of active/inactive
                 let mut active_count = 0;
@@ -886,7 +886,7 @@ mod tests {
             }
         }
 
-        /// Test optional fields randomization
+        /// Test optional fields randomisation
         #[test]
         fn test_mock_randomises_optional_fields() {
             let mut has_description = false;

@@ -6,23 +6,7 @@
 //! creating category rows should be ergonomic and explicit.
 
 use super::Categories;
-
-
-/// Errors emitted by [`CategoryBuilder::build`] when required data is missing.
-#[derive(Debug, thiserror::Error, PartialEq, Eq)]
-pub enum CategoryBuilderError {
-	/// The category name was not provided.
-	#[error("category name is required")]
-	Name,
-
-	/// The category type was not provided.
-	#[error("category type is required")]
-	CategoryType,
-
-	/// The category code was not provided.
-	#[error("category code is required")]
-	Code,
-}
+use crate::DatabaseError;
 
 /// Fluent builder for [`Categories`] rows.
 ///
@@ -56,6 +40,13 @@ impl CategoriesBuilder {
 	#[must_use]
 	pub fn with_id(mut self, id: lib_domain::RowID) -> Self {
 		self.id = Some(id);
+		self
+	}
+
+	/// Provide an optional [`RowID`] for the category.
+	#[must_use]
+	pub fn with_id_opt(mut self, id: Option<lib_domain::RowID>) -> Self {
+		self.id = id;
 		self
 	}
 
@@ -185,16 +176,16 @@ impl CategoriesBuilder {
 		self
 	}
 	/// Build the [`Categories`], returning an error when required fields are missing.
-	pub fn build(self) -> Result<Categories, CategoryBuilderError> {
+	pub fn build(self) -> crate::DatabaseResult<Categories> {
 		let name = self
 			.name
-			.ok_or(CategoryBuilderError::Name)?;
+			.ok_or(DatabaseError::CategoryBuilder("category name is required but was not set".to_string()))?;
 		let category_type = self
 			.category_type
-			.ok_or(CategoryBuilderError::CategoryType)?;
+			.ok_or(DatabaseError::CategoryBuilder("category type is required but was not set".to_string()))?;
 		let code = self
 			.code
-			.ok_or(CategoryBuilderError::Code)?;
+			.ok_or(DatabaseError::CategoryBuilder("category code is required but was not set".to_string()))?;
 
 	  let id = self.id.unwrap_or_default();
 		let url_slug = self.url_slug;
@@ -214,6 +205,43 @@ impl CategoriesBuilder {
 			updated_on: self.updated_on.unwrap_or(now),
 		})
 	}
+
+	/// Build the [`Categories`] with sensible defaults for all fields, useful for tests and fixtures.
+	///
+	/// This method provides defaults for required fields if not set, optimising for quick construction
+	/// in non-production scenarios. It generates a new ID, uses a default code and name, and sets
+	/// other fields to reasonable defaults.
+	///
+	/// # Examples
+	/// ```
+	/// use lib_database::categories::CategoriesBuilder;
+	///
+	/// let category = CategoriesBuilder::new().build_with_defaults();
+	/// assert!(!category.name.is_empty());
+	/// ```
+	pub fn build_with_defaults(self) -> Categories {
+		let name = self.name.unwrap_or_else(|| "Default Category".to_string());
+		let category_type = self.category_type.unwrap_or(lib_domain::CategoryTypes::Expense);
+		let code = self.code.unwrap_or_else(|| "DEF.001".to_string());
+
+		let id = self.id.unwrap_or_else(lib_domain::RowID::new);
+		let url_slug = self.url_slug;
+		let now = chrono::Utc::now();
+
+		Categories {
+			id,
+			code,
+			name,
+			description: self.description,
+			url_slug,
+			category_type,
+			color: self.color,
+			icon: self.icon,
+			is_active: self.is_active.unwrap_or(true),
+			created_on: self.created_on.unwrap_or(now),
+			updated_on: self.updated_on.unwrap_or(now),
+		}
+	}
 }
 
 #[cfg(test)]
@@ -226,7 +254,7 @@ mod tests {
 		let result = CategoriesBuilder::new()
 			.with_category_type(CategoryTypes::Expense)
 			.build();
-		assert_eq!(result.unwrap_err(), CategoryBuilderError::Name);
+		assert_eq!(result.unwrap_err(), DatabaseError::CategoryBuilder("category name is required but was not set".to_string()));
 	}
 
 	#[test]
@@ -234,7 +262,7 @@ mod tests {
 		let result = CategoriesBuilder::new().with_name("Travel").build();
 		assert_eq!(
 			result.unwrap_err(),
-			CategoryBuilderError::CategoryType
+			DatabaseError::CategoryBuilder("category type is required but was not set".to_string())
 		);
 	}
 
@@ -244,7 +272,7 @@ mod tests {
 			.with_name("Travel")
 			.with_category_type(CategoryTypes::Expense)
 			.build();
-		assert_eq!(result.unwrap_err(), CategoryBuilderError::Code);
+		assert_eq!(result.unwrap_err(), DatabaseError::CategoryBuilder("category code is required but was not set".to_string()));
 	}
 
 	#[test]
@@ -316,5 +344,28 @@ mod tests {
 		assert!(category.color.is_none());
 		assert!(category.url_slug.is_none()); // not generated from name
 		assert!(category.is_active); // default restored
+	}
+
+	#[test]
+	fn build_with_defaults_works() {
+		let category = CategoriesBuilder::new().build_with_defaults();
+		assert_eq!(category.name, "Default Category");
+		assert_eq!(category.code, "DEF.001");
+		assert_eq!(category.category_type, CategoryTypes::Expense);
+		assert!(category.is_active);
+	}
+
+	#[test]
+	fn with_id_opt_sets_none() {
+		let category = CategoriesBuilder::new()
+			.with_id(lib_domain::RowID::new())
+			.with_id_opt(None)
+			.with_name("Test")
+			.with_category_type(CategoryTypes::Expense)
+			.with_code("TEST.001")
+			.build()
+			.expect("build should succeed");
+
+		assert_eq!(category.id, lib_domain::RowID::default());
 	}
 }
