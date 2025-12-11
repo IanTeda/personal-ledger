@@ -36,40 +36,49 @@ key3 = true
 Configuration sections group related settings together. The application currently supports:
 
 - `[Telemetry]`: Logging and telemetry settings
+- `[Database]`: Database connection and pool settings
 
 ## Configuration Hierarchy
 
 Configuration settings are loaded from multiple sources in the following precedence order (highest to lowest):
 
 1. **Environment Variables** (highest precedence)
+
    - Prefix: `PERSONAL_LEDGER_`
    - Example: `PERSONAL_LEDGER_TELEMETRY__TELEMETRY_LEVEL=debug`
+   - Example: `PERSONAL_LEDGER_DATABASE__URL=sqlite:/tmp/test.db`
    - Use double underscores (`__`) to separate nested keys
 
 2. **Explicit Configuration File**
+
    - Passed directly to the application via command-line arguments
    - Useful for custom configurations in specific deployments
 
 3. **Current Working Directory**
+
    - File: `config/personal-ledger.conf`
    - Allows project-specific overrides when running from a directory
 
 4. **Executable Directory**
+
    - Configuration file in the same directory as the binary
    - Useful for portable applications
 
 5. **User Configuration**
+
    - Platform-specific user config directory
    - Linux/macOS: `~/.config/personal-ledger/personal-ledger.conf`
    - Windows: `%APPDATA%\personal-ledger\personal-ledger.conf`
 
 6. **System Configuration**
+
    - Platform-specific system-wide config directory
    - Linux: `/etc/personal-ledger/personal-ledger.conf`
    - macOS: `/Library/Preferences/personal-ledger/personal-ledger.conf`
    - Windows: `%ALLUSERSPROFILE%\personal-ledger\personal-ledger.conf`
 
 7. **Built-in Defaults** (lowest precedence)
+
    - Hardcoded default values in the application code
 
 Higher precedence sources override lower precedence ones. For example, an environment variable will override any configuration file setting.
@@ -99,6 +108,86 @@ Example:
 telemetry_level = "debug"
 ```
 
+## Database Section
+
+The `[Database]` section controls database connection and connection pool settings for the application.
+
+### url
+
+The database connection URL.
+
+- **Type**: String
+- **Valid Values**: SQLite URLs in the format `sqlite:path/to/database.db`
+- **Default**: `"sqlite:./personal-ledger.sqlite"`
+
+Examples:
+
+- `sqlite:./personal-ledger.sqlite` (relative path)
+- `sqlite:/tmp/personal-ledger.db` (absolute path)
+- `sqlite::memory:` (in-memory database)
+
+### max_connections
+
+Maximum number of connections in the connection pool.
+
+- **Type**: Integer
+- **Valid Values**: Positive integers
+- **Default**: `10`
+
+Higher values allow more concurrent database operations but use more resources.
+
+### min_connections
+
+Minimum number of connections to maintain in the connection pool.
+
+- **Type**: Integer
+- **Valid Values**: Non-negative integers, must be ≤ `max_connections`
+- **Default**: `1`
+
+The pool will try to keep at least this many connections ready to improve performance.
+
+### acquire_timeout_seconds
+
+Timeout for acquiring a connection from the pool (in seconds).
+
+- **Type**: Integer
+- **Valid Values**: Positive integers
+- **Default**: `30`
+
+If no connection becomes available within this time, an error is returned.
+
+### idle_timeout_seconds
+
+Idle timeout for connections (in seconds).
+
+- **Type**: Integer
+- **Valid Values**: Non-negative integers (0 to disable)
+- **Default**: `600`
+
+Connections that remain unused beyond this time may be closed to free resources.
+
+### max_lifetime_seconds
+
+Maximum lifetime for connections (in seconds).
+
+- **Type**: Integer
+- **Valid Values**: Non-negative integers (0 to disable)
+- **Default**: `1800`
+
+Connections older than this will be closed and replaced to prevent stale connections.
+
+Example:
+
+```ini
+[Database]
+url = "sqlite:./personal-ledger.sqlite"
+max_connections = 20
+min_connections = 2
+acquire_timeout_seconds = 60
+idle_timeout_seconds = 300
+max_lifetime_seconds = 3600
+```
+
 ## Example Configuration File
 
 ```ini
@@ -116,4 +205,17 @@ telemetry_level = "debug"
 # Logging level for telemetry output
 # Valid values: "trace", "debug", "info", "warn", "error", "off"
 telemetry_level = "trace"
+
+[Database]
+# Database connection URL
+url = "sqlite:./personal-ledger.sqlite"
+
+# Connection pool settings
+max_connections = 10
+min_connections = 1
+
+# Timeout settings (in seconds)
+acquire_timeout_seconds = 30
+idle_timeout_seconds = 600
+max_lifetime_seconds = 1800
 ```
