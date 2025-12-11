@@ -224,7 +224,7 @@ impl CategoriesBuilder {
 		let category_type = self.category_type.unwrap_or(lib_domain::CategoryTypes::Expense);
 		let code = self.code.unwrap_or_else(|| "DEF.001".to_string());
 
-		let id = self.id.unwrap_or_else(lib_domain::RowID::new);
+		let id = self.id.unwrap_or_default();
 		let url_slug = self.url_slug;
 		let now = chrono::Utc::now();
 
