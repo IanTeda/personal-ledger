@@ -14,10 +14,11 @@
 //! Use the re-exported clients and servers to build gRPC clients or implement servers.
 //! Message types are available for constructing requests and handling responses.
 
-mod generated;
+#![allow(unused)] // For development only
 
 mod categories;
-
+mod error;
+mod generated;
 mod utilities;
 
 // Re-export categories module to maintain flat API
