@@ -1,3 +1,5 @@
-mod proto;
+pub (crate) mod proto;
+mod service;
+mod client;
 
-pub use proto::*;
+pub use service::UtilitiesService;
